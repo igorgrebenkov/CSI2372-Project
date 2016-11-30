@@ -1,10 +1,19 @@
-#include "Card.h"
 #include <string>
 #include <iostream>
+
+#include "Card.h"
+#include "CardFactory.h"
 
 using namespace std;
 
 int main() {
+	const CardFactory* cf = CardFactory::getFactory();
+	Deck d = cf->getDeck();
+	const Card* c = d.draw();
+
+	c->print(cout);
+
+	/*
 	Quartz a("Quartz");
 	Ruby b("Ruby");
 	const int aCoins = 0;
@@ -16,6 +25,7 @@ int main() {
 	cout << a.getCardsPerCoin(aCoins) << endl;
 	b.print(cout);
 	cout << b.getCardsPerCoin(bCoins) << endl;
+	*/
 
 
 	return 0;

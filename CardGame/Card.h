@@ -7,7 +7,7 @@ class Card {
 public:
 	Card(const string name) : cardName(name) {};
 	friend ostream& operator<<(ostream& os, const Card& card);
-protected:
+public:
 	string cardName;
 	virtual int getCardsPerCoin(const int& coins) const = 0;
 	virtual string getName() const = 0;
@@ -19,7 +19,7 @@ inline std::ostream& operator<<(std::ostream& os, const Card& card) {
 	return os;
 }
 
-class Quartz : protected Card {
+class Quartz : public Card {
 public:
 	Quartz(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
