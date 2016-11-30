@@ -9,9 +9,11 @@ using namespace std;
 int main() {
 	const CardFactory* cf = CardFactory::getFactory();
 	Deck d = cf->getDeck();
-	const Card* c = d.draw();
 
-	c->print(cout);
+	for (Card* c : d) {
+		c->print(cout);
+	}
+
 
 	/*
 	Quartz a("Quartz");

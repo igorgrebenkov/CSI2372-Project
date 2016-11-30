@@ -27,7 +27,7 @@ public:
 	void print(ostream& out) const;
 };
 
-class Hematite : protected Card {
+class Hematite : public Card {
 public:
 	Hematite(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
@@ -35,7 +35,7 @@ public:
 	void print(ostream& out) const;
 };
 
-class Obsidian : protected Card {
+class Obsidian : public Card {
 public:
 	Obsidian(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
@@ -43,7 +43,7 @@ public:
 	void print(ostream& out) const;
 };
 
-class Malachite : protected Card {
+class Malachite : public Card {
 public:
 	Malachite(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
@@ -51,7 +51,7 @@ public:
 	void print(ostream& out) const;
 };
 
-class Turquoise : protected Card {
+class Turquoise : public Card {
 public:
 	Turquoise(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
@@ -59,7 +59,7 @@ public:
 	void print(ostream& out) const;
 };
 
-class Ruby : protected Card {
+class Ruby : public Card {
 public:
 	Ruby(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
@@ -67,7 +67,7 @@ public:
 	void print(ostream& out) const;
 };
 
-class Amethyst : protected Card {
+class Amethyst : public Card {
 public:
 	Amethyst(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
@@ -75,7 +75,7 @@ public:
 	void print(ostream& out) const;
 };
 
-class Emerald : protected Card {
+class Emerald : public Card {
 public:
 	Emerald(const string name) : Card(name) {};
 	int getCardsPerCoin(const int& coins) const;
