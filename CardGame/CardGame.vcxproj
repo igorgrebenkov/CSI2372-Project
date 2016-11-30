@@ -142,6 +142,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Card.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Card.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
