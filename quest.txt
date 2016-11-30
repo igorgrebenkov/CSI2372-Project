@@ -1,1 +1,2 @@
 why no const function if using pop_back?
+numCoins in player public...ok?
