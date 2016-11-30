@@ -8,11 +8,10 @@ class CardFactory;
 
 class DiscardPile : public vector<Card*> {
 public:
-	using vector<Card*>::vector;
 	DiscardPile() {};
+	DiscardPile(istream& os, const CardFactory* cf);
 	const DiscardPile& operator+=(Card* card);
 	const ostream& operator<<(ostream& os);
-	DiscardPile(istream& os, const CardFactory* cf);
 	const Card* pickUp();
 	const Card* top();
 	void print(ostream& os);

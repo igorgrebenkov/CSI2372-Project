@@ -146,6 +146,7 @@
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\CardFactory.h" />
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Deck.h" />
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\DiscardPile.h" />
+    <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\TradeArea.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Card.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Deck.cpp" />
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\DiscardPile.cpp" />
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Test.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\TradeArea.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

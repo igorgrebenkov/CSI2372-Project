@@ -7,6 +7,7 @@ class Card {
 public:
 	Card(const string name) : cardName(name) {};
 	friend ostream& operator<<(ostream& os, const Card& card);
+	friend bool operator==(const Card& c1, const Card& c2);
 public:
 	string cardName;
 	virtual int getCardsPerCoin(const int& coins) const = 0;
@@ -17,6 +18,15 @@ public:
 inline std::ostream& operator<<(std::ostream& os, const Card& card) {
 	card.print(os);
 	return os;
+}
+
+inline bool operator==(const Card& c1, const Card& c2) {
+	if (c1.cardName == c2.cardName) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 class Quartz : public Card {

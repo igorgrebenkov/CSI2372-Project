@@ -1,5 +1,5 @@
-using namespace std;
 #include "DiscardPile.h"
+using namespace std;
 
 DiscardPile::DiscardPile(std::istream& is, const CardFactory* cf) {
 
