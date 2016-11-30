@@ -8,11 +8,11 @@ using namespace std;
 
 int main() {
 	const CardFactory* cf = CardFactory::getFactory();
-	Deck d = cf->getDeck();
+	const CardFactory* cf2 = CardFactory::getFactory();
 
-	for (Card* c : d) {
-		c->print(cout);
-	}
+
+	cout << cf << ", " << cf2 << endl;
+	
 
 
 	/*

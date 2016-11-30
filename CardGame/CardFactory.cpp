@@ -1,4 +1,5 @@
 #include<vector>
+#include <iostream>
 #include <algorithm>
 #include<random>
 
@@ -36,13 +37,13 @@ CardFactory::CardFactory() {
 	for (int i = 0; i < 6; i++) {
 		deck.push_back(createCard("Emerald"));
 	}
-	//auto engine = default_random_engine{};
-	//shuffle(begin(deck), end(deck), engine);
+	auto engine = default_random_engine{};
+	shuffle(begin(deck), end(deck), engine);
 }
 
 const CardFactory* CardFactory::getFactory() {
-	static CardFactory cardFactory;
-	return &cardFactory;
+	static CardFactory* cardFactory = new CardFactory();
+	return cardFactory;
 }
 
 const Deck CardFactory::getDeck() const {
@@ -71,7 +72,7 @@ Card* CardFactory::createCard(const string &name) {
 	else if (name == "Amethyst") {
 		return new Amethyst(name);
 	}
-	else if (name == "Emerald") {
+	else {
 		return new Emerald(name);
 	}
 }
