@@ -3,15 +3,42 @@
 
 #include "Card.h"
 #include "CardFactory.h"
+#include "DiscardPile.h"
 
 using namespace std;
 
 int main() {
+	// CardFactory tests
 	const CardFactory* cf = CardFactory::getFactory();
-	const CardFactory* cf2 = CardFactory::getFactory();
 
+	Deck d = cf->getDeck();
 
-	cout << cf << ", " << cf2 << endl;
+	for (Card* c : d) {
+		c->print(cout);
+	}
+	cout << endl;
+	const Card* drawn = d.draw();
+	cout << "Drawn: " << *drawn;
+	cout << endl;
+
+	
+	// DiscardPile tests
+	DiscardPile pile;
+	pile += d[0]; // test overloaded operators
+	pile += d[1];
+	cout << endl;
+	const Card* pickedUp = pile.pickUp();
+	const Card* top = pile.top();
+	cout << *pickedUp;
+	cout << *top;
+	cout << endl;
+
+	pile += d[0];
+	pile += d[1];
+	pile += d[2];
+	pile += d[3];
+
+	pile.print(cout);
 	
 
 
