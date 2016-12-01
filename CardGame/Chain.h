@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Card.h"
 using namespace std;
+class CardFactory;
 
 template <typename T>
 class Chain_Base : public vector<T*> {
@@ -17,17 +18,12 @@ template <typename T>
 class Chain : public Chain_Base<T> {
 public:
 	Chain() {};
-	Chain(istream& is, const CardFactory* cf);
+	Chain(istream& is, const CardFactory* cf) {};
 	Chain& operator+=(Card* c);
 	const ostream& operator<<(ostream& os);
 	int sell();
-
 };
 
-template <typename T>
-inline Chain<T>::Chain(istream& is, const CardFactory* cf) {
-
-}
 
 template <typename T>
 inline Chain<T>& Chain<T>::operator+=(Card* c) {
@@ -69,8 +65,5 @@ inline int Chain<T>::sell() {
 			return 4;
 		}
 	}
-	else {
-		return 0;
-	}
-	
+	return 0;
 }

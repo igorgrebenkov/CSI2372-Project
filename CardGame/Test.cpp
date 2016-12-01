@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <queue>
 
 #include "Card.h"
 #include "CardFactory.h"
@@ -7,6 +8,7 @@
 #include "TradeArea.h"
 #include "Player.h"
 #include "Chain.h"
+#include "Hand.h"
 
 using namespace std;
 
@@ -36,6 +38,18 @@ int main() {
 	a << cout;
 	cout << a.sell() << endl;
 
+	// Hand tests
+	Hand h;
+
+	h += d[0];
+	h += d[1];
+	h += d[2];
+
+	h[0]->print(cout);
+	h[1]->print(cout);
+	h[2]->print(cout);
+
+	h << cout;
 
 
 	/*

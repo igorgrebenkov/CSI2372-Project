@@ -147,6 +147,7 @@
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Chain.h" />
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Deck.h" />
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\DiscardPile.h" />
+    <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Hand.h" />
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Player.h" />
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\TradeArea.h" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Chain.cpp" />
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Deck.cpp" />
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\DiscardPile.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Hand.cpp" />
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Player.cpp" />
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Test.cpp" />
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\TradeArea.cpp" />

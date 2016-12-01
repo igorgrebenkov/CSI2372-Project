@@ -36,6 +36,9 @@
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Chain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Hand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Card.cpp">
@@ -60,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Chain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Hand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
