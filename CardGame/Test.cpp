@@ -51,6 +51,15 @@ int main() {
 
 	h << cout;
 
+	const Card* play = h.play();
+	const Card* top = h.top();
+
+	cout << "Play: ";
+	play->print(cout);
+	cout << "Top: ";
+	top->print(cout);
+	h << cout;
+
 
 	/*
 	const Card* drawn = d.draw();

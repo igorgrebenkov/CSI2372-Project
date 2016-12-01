@@ -11,10 +11,9 @@ class Hand : public queue<Card*,deque<Card*>> {
 public:
 	Hand() {};
 	Hand(istream& os, const CardFactory* cf);
-	Hand& operator+=(Card* c);
-	Card* operator[](int);
+	const Hand& operator+=(Card* c);
+	const Card* operator[](int);
 	ostream& operator<<(ostream& os);
-	Card* play();
-	Card* top();
-	const Card* draw();
+	const Card* play();
+	const Card* top() const;
 };

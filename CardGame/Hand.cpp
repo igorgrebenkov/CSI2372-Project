@@ -3,12 +3,12 @@
 Hand::Hand(istream & os, const CardFactory* cf) {
 }
 
-Hand& Hand::operator+=(Card* c) {
-	push(c);
+const Hand& Hand::operator+=(Card* c) {
+	this->push(c);
 	return *this;
 }
 
-Card* Hand::operator[](int i) {
+const Card* Hand::operator[](int i) {
 	int j = 0;
 	Card* saved = NULL;
 	Card* ret = NULL;
@@ -35,14 +35,14 @@ ostream& Hand::operator<<(ostream& os) {
 }
 
 
-Card* Hand::play() {
-	return nullptr;
+const Card* Hand::play() {
+	Card* ret = this->front();
+	this->pop();
+	return ret;
 }
 
-Card* Hand::top() {
-	return nullptr;
+const Card* Hand::top() const {
+	return this->front();
 }
 
-const Card* Hand::draw() {
-	return nullptr;
-}
+
