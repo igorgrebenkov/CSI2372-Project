@@ -5,8 +5,8 @@ Deck::Deck(std::istream& is, const CardFactory* cf) {
 
 }
 
-const Card* Deck::draw() {
-	const Card* drawnCard = back();
+Card* Deck::draw() {
+	Card* drawnCard = back();
 	pop_back();
 	return drawnCard;
 }

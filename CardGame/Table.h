@@ -15,7 +15,7 @@ private:
 	DiscardPile* discardPile;
 	TradeArea* tradeArea;
 public:
-	Table(string& p1Name, string& p2Name);
+	Table(const string& p1Name, const string& p2Name);
 	Table(istream& os, const CardFactory* cf);
 	ostream& operator<<(ostream&);
 	const bool win(string& s) const;

@@ -9,5 +9,5 @@ class Deck : public vector<Card*> {
 public:
 	Deck() {};
 	Deck(istream& os, const CardFactory* cf);
-	const Card* draw();
+	Card* draw();
 };

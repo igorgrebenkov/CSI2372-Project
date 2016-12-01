@@ -29,6 +29,11 @@ ostream& Player::operator<<(std::ostream& os) const {
 	return os;
 }
 
+Hand* const Player::getHand() const {
+	return hand;
+}
+
+
 const string Player::getName() const {
 	return name;
 }
@@ -69,7 +74,7 @@ void Player::buyThirdChain() {
 
 void Player::printHand(std::ostream& os, bool b) const {
 	if (!b) {
-		os << hand->front();
+		os << (hand->front())->getName() << endl;
 	} else {
 		os << hand;
 	}

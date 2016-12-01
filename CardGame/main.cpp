@@ -9,10 +9,12 @@
 #include "Player.h"
 #include "Chain.h"
 #include "Hand.h"
+#include "Table.h"
 
 using namespace std;
 
-int main2() {
+int main() {
+	Table t("John", "Ruddiger");
 
 	
 	return 0;

@@ -9,7 +9,7 @@ const Hand& Hand::operator+=(Card* c) {
 }
 
 const Card* Hand::operator[](int i) {
-	int j = 0;
+	size_t j = 0;
 	Card* saved = NULL;
 	Card* ret = NULL;
 	while (j != this->size()) {
@@ -25,7 +25,7 @@ const Card* Hand::operator[](int i) {
 }
 
 ostream& Hand::operator<<(ostream& os) {
-	int j = 0;
+	size_t j = 0;
 	while (j != this->size()) {
 		os << (*this)[j]->getName()[0] << " ";
 		j++;
