@@ -5,10 +5,13 @@
 #include "CardFactory.h"
 #include "DiscardPile.h"
 #include "TradeArea.h"
+#include "Player.h"
+#include "Chain.h"
 
 using namespace std;
 
 int main() {
+	
 	// CardFactory tests
 	const CardFactory* cf = CardFactory::getFactory();
 
@@ -18,6 +21,24 @@ int main() {
 		c->print(cout);
 	}
 	cout << endl;
+
+	// Chain tests
+	Chain<Turquoise> a;
+
+	a += d[1]; 
+	a += d[1]; // 1 coin
+	a += d[1];
+	a += d[1]; // 2 coins
+	a += d[1];
+	a += d[1]; // 3 coins
+	a += d[1]; // 4 coins
+
+	a << cout;
+	cout << a.sell() << endl;
+
+
+
+	/*
 	const Card* drawn = d.draw();
 	cout << "Drawn: " << *drawn;
 	cout << endl;
@@ -55,6 +76,11 @@ int main() {
 	cout << t.legal(d[7]) << endl; // should be false
 	cout << t.numCards() << endl;
 
+	//Player tests
+	Player p("Igor");
+	p += 4;
+	cout << p;
+	*/
 	
 
 
