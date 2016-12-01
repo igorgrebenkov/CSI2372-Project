@@ -1,3 +1,7 @@
 why no const function if using pop_back?
 numCoins in player public...ok?
 iterating list to delete stuff ok?
+
+exception handling
+destructors
+finish player print function

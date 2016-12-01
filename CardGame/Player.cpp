@@ -5,8 +5,9 @@
 using namespace std;
 
 Player::Player(const string& s) : name(s), numCoins(0) {
-	chains.push_back(new Chain_Base<Card>);
-	chains.push_back(new Chain_Base<Card>);
+	chains.push_back(new Chain_Base<Card>());
+	chains.push_back(new Chain_Base<Card>());
+	hand = new Hand();
 }
 
 
@@ -15,10 +16,23 @@ const Player& Player::operator+=(int i) {
 	return *this;
 }
 
-ostream& operator<<(std::ostream& os, const Player& p) {
-	os << p.name << "\t" << p.numCoins << endl;
+ostream& Player::operator<<(std::ostream& os) const {
+	os << name << "\t" << numCoins << endl;
+	if (chains[0] != NULL) {
+		os << (*chains[0])[0]->getName();
+		os << "\t";
+		for (size_t i = 0; i < (*chains[0]).size(); i++) {
+			os << (*chains[0])[0]->getName();
+		}
+
+	}
 	return os;
 }
+
+const string Player::getName() const {
+	return name;
+}
+
 
 const int Player::getNumCoins() const {
 	return numCoins;
@@ -46,13 +60,17 @@ const Chain_Base<Card>& Player::operator[](int i) {
 void Player::buyThirdChain() {
 	// ADD EXCEPTION HANDLING
 	if (numCoins >= 2) {
-		chains.push_back(new Chain_Base<Card>);
+		chains.push_back(new Chain_Base<Card>());
 	}
 	else {
 		   // exception here
 	}
 }
 
-void Player::printHand(std::ostream&, bool) const {
-
+void Player::printHand(std::ostream& os, bool b) const {
+	if (!b) {
+		os << hand->front();
+	} else {
+		os << hand;
+	}
 }

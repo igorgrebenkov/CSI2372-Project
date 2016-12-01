@@ -46,7 +46,7 @@ const CardFactory* CardFactory::getFactory() {
 	return cardFactory;
 }
 
-const Deck CardFactory::getDeck() const {
+Deck CardFactory::getDeck() const {
 	return deck;
 }
 

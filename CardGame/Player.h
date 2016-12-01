@@ -3,16 +3,19 @@
 #include <vector>
 #include <string>
 #include "Chain.h"
+#include "Hand.h"
 using namespace std;
 class Player {
 private:
 	string name;
 	int numCoins;
 	vector<Chain_Base<Card> *> chains;
+	Hand* hand;
 public:
 	Player(const string& s);
 	const Player& operator+=(int i);
-	friend ostream& operator<<(ostream& os, const Player&);
+	ostream& operator<<(ostream& os) const;
+	const string getName() const;
 	const int getNumCoins() const;
 	const int getMaxNumChains() const;
 	const int getNumChains() const;

@@ -5,6 +5,7 @@
 using namespace std;
 class CardFactory;
 
+
 template <typename T>
 class Chain_Base : public vector<T*> {
 public:
