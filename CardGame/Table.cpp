@@ -33,6 +33,13 @@ ostream& Table::operator<<(ostream& os) {
 	return os;
 } 
 
+const Player* const Table::getPlayers(Player* arr[]) const {
+	arr[0] = p1;
+	arr[1] = p2;
+	return *arr;
+}
+
+
 const bool Table::win(string& s) const {
 	if (deck.empty()) {
 		s = p1->getNumCoins() > p2->getNumCoins() ?

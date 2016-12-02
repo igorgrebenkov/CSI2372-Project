@@ -11,11 +11,19 @@
 #include "Hand.h"
 #include "Table.h"
 
+#define NUM_PLAYERS 2
+
 using namespace std;
 
 int main() {
 	Table t("John", "Ruddiger");
-	t << cout;
+	Player* arr[NUM_PLAYERS];
+	t.getPlayers(arr);
+
+	for (Player* p : arr) {
+		cout << p->getName();
+	}
+
 	
 	return 0;
 }
