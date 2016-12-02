@@ -23,7 +23,7 @@ int main() {
 
 	for (Player* p : arr) {
 	}
-	t << cout;
+	t.print(cout);
 
 	
 	return 0;

@@ -26,8 +26,6 @@ Table::Table(istream& os, const CardFactory* cf) {
 ostream& Table::operator<<(ostream& os) {
 	*p1 << os;
 	*p2 << os;
-	//os << "Player 1: " << p1->getName() << endl;
-	//os << "Player 2: " << p2->getName() << endl;
 	os << "Discard Pile: ";
 	discardPile->print(cout);
 	os << "Trade Area: ";
@@ -52,9 +50,11 @@ const bool Table::win(string& s) const {
 }
 
 void Table::print(ostream& os) {
-	os << "Player 1: " << p1->getName() << endl;
-	os << "Player 2: " << p2->getName() << endl;
-	os << "Deck:";
+	os << "Player 1: "; 
+	*p1 << os;
+	os << "Player 2: ";
+	*p2 << os;
+	os << "Deck: ";
 	deck << os;
 	os << "Discard Pile:";
 	discardPile->print(cout);

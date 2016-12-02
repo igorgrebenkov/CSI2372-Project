@@ -26,7 +26,6 @@ ostream& Player::operator<<(std::ostream& os) const {
 		for (size_t i = 0; i < (*chains[0]).size(); i++) {
 			os << (*chains[0])[0]->getName();
 		}
-
 	}
 	return os;
 }
