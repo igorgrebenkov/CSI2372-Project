@@ -24,11 +24,13 @@ Table::Table(istream& os, const CardFactory* cf) {
 }
 
 ostream& Table::operator<<(ostream& os) {
-	os << "Player 1: " << p1->getName() << endl;
-	os << "Player 2: " << p2->getName() << endl;
+	*p1 << os;
+	*p2 << os;
+	//os << "Player 1: " << p1->getName() << endl;
+	//os << "Player 2: " << p2->getName() << endl;
 	os << "Discard Pile: ";
 	discardPile->print(cout);
-	os << "Trade Area:";
+	os << "Trade Area: ";
 	*tradeArea << os;
 	return os;
 } 

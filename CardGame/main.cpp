@@ -17,12 +17,13 @@ using namespace std;
 
 int main() {
 	Table t("John", "Ruddiger");
+
 	Player* arr[NUM_PLAYERS];
 	t.getPlayers(arr);
 
 	for (Player* p : arr) {
-		cout << p->getName();
 	}
+	t << cout;
 
 	
 	return 0;

@@ -17,8 +17,10 @@ const Player& Player::operator+=(int i) {
 }
 
 ostream& Player::operator<<(std::ostream& os) const {
-	os << name << "\t" << numCoins << endl;
-	if (chains[0] != NULL) {
+	os.width(12);
+	os << left << name <<
+		left << numCoins << " coins" << endl;
+	if (!chains[0]->empty()) {
 		os << (*chains[0])[0]->getName();
 		os << "\t";
 		for (size_t i = 0; i < (*chains[0]).size(); i++) {
