@@ -5,8 +5,8 @@
 using namespace std;
 
 Player::Player(const string& s) : name(s), numCoins(0) {
-	chains.push_back(new Chain_Base<Card>());
-	chains.push_back(new Chain_Base<Card>());
+	chains.push_back(new Chain<Card*>());
+	chains.push_back(new Chain_Base<Card*>());
 	hand = new Hand();
 }
 
@@ -21,10 +21,10 @@ ostream& Player::operator<<(std::ostream& os) const {
 	os << left << name <<
 		left << numCoins << " coins" << endl;
 	if (!chains[0]->empty()) {
-		os << (*chains[0])[0]->getName();
+		os << (*(*chains[0])[0])->getName();
 		os << "\t";
 		for (size_t i = 0; i < (*chains[0]).size(); i++) {
-			os << (*chains[0])[0]->getName();
+			os << (*(*chains[0])[0])->getName();
 		}
 	}
 	return os;
@@ -39,6 +39,10 @@ const string Player::getName() const {
 	return name;
 }
 
+vector<Chain_Base<Card*> *> Player::getChains() const {
+	return chains;
+}
+
 
 const int Player::getNumCoins() const {
 	return numCoins;
@@ -50,7 +54,7 @@ const int Player::getMaxNumChains() const {
 
 const int Player::getNumChains() const {
 	int numChains = 0;
-	for (Chain_Base<Card>* c : chains) {
+	for (Chain_Base<Card*>* c : chains) {
 		if (c->size() > 0) {
 			numChains++;
 		}
@@ -58,7 +62,7 @@ const int Player::getNumChains() const {
 	return numChains;
 }
 
-const Chain_Base<Card>& Player::operator[](int i) {
+const Chain_Base<Card*>& Player::operator[](int i) {
 	return *chains[i];
 }
 
@@ -66,7 +70,7 @@ const Chain_Base<Card>& Player::operator[](int i) {
 void Player::buyThirdChain() {
 	// ADD EXCEPTION HANDLING
 	if (numCoins >= 2) {
-		chains.push_back(new Chain_Base<Card>());
+		chains.push_back(new Chain_Base<Card*>());
 	}
 	else {
 		   // exception here

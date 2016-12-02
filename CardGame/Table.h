@@ -18,7 +18,10 @@ public:
 	Table(const string& p1Name, const string& p2Name);
 	Table(istream& os, const CardFactory* cf);
 	ostream& operator<<(ostream&);
-	const Player* const getPlayers(Player* arr[]) const;
+	Player* const getPlayers(Player* arr[]) const;
+	Deck getDeck() const;
+	DiscardPile* const getDiscardPile() const;
+	TradeArea* const getTradeArea() const;
 	const bool win(string& s) const;
 	void print(ostream&);
 };

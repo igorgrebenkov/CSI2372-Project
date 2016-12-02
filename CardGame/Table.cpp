@@ -24,20 +24,37 @@ Table::Table(istream& os, const CardFactory* cf) {
 }
 
 ostream& Table::operator<<(ostream& os) {
+	os << "************************************************************";
+	os << endl;
 	*p1 << os;
 	*p2 << os;
 	os << "Discard Pile: ";
 	discardPile->print(cout);
 	os << "Trade Area: ";
 	*tradeArea << os;
+	os << "************************************************************";
+	os << endl;
 	return os;
 } 
 
-const Player* const Table::getPlayers(Player* arr[]) const {
+Player* const Table::getPlayers(Player* arr[]) const {
 	arr[0] = p1;
 	arr[1] = p2;
 	return *arr;
 }
+
+Deck Table::getDeck() const {
+	return deck;
+}
+
+DiscardPile* const Table::getDiscardPile() const {
+	return discardPile;
+}
+
+TradeArea* const Table::getTradeArea() const {
+	return tradeArea;
+}
+
 
 
 const bool Table::win(string& s) const {

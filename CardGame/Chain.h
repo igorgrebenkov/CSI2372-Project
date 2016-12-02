@@ -10,9 +10,6 @@ template <typename T>
 class Chain_Base : public vector<T*> {
 public:
 	Chain_Base() {};
-	T* test() {
-		return (*this)[0];
-	}
 };
 
 template <typename T>

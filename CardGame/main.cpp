@@ -22,8 +22,36 @@ int main() {
 	t.getPlayers(arr);
 
 	for (Player* p : arr) {
+		// Option for buying third chain
+		if (p->getNumCoins() >= 3 &&
+			p->getMaxNumChains() == 2) {
+
+			char chainChoice = 0;
+
+			cout << "Buy an extra chain? (y/n): ";
+			cin >> chainChoice;
+			
+			switch (tolower(chainChoice)) {
+				case 'y':
+					p->buyThirdChain();
+					break;
+				default:
+					break;
+			}
+		}
+
+		// Draw card from deck to player
+		*(p->getHand()) += t.getDeck().draw();
+
+		if ((t.getTradeArea())->empty()) {
+			const Card* play = p->getHand()->play();
+			vector<Chain_Base<Card*>*> playerChains;
+			playerChains = p->getChains();
+			Chain_Base<Card*>* chain = playerChains[0];
+			*chain += play;
+		}
+
 	}
-	t.print(cout);
 
 	
 	return 0;
