@@ -15,9 +15,6 @@ Table::Table(const string& p1Name, const string& p2Name) {
 		*p2Hand += deck.draw();
 	}
 
-	p1->printHand(cout, false);
-	p2->printHand(cout, false);
-
 	discardPile = new DiscardPile();
 	tradeArea = new TradeArea();
 }
@@ -27,8 +24,14 @@ Table::Table(istream& os, const CardFactory* cf) {
 }
 
 ostream& Table::operator<<(ostream& os) {
+	os << "Player 1: " << p1->getName() << endl;
+	os << "Player 2: " << p2->getName() << endl;
+	os << "Discard Pile: ";
+	discardPile->print(cout);
+	os << "Trade Area:";
+	*tradeArea << os;
 	return os;
-}
+} 
 
 const bool Table::win(string& s) const {
 	if (deck.empty()) {
@@ -39,6 +42,13 @@ const bool Table::win(string& s) const {
 	return false;
 }
 
-void Table::print(ostream&) {
-
+void Table::print(ostream& os) {
+	os << "Player 1: " << p1->getName() << endl;
+	os << "Player 2: " << p2->getName() << endl;
+	os << "Deck:";
+	deck << os;
+	os << "Discard Pile:";
+	discardPile->print(cout);
+	os << "Trade Area:";
+	*tradeArea << os;
 }

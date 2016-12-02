@@ -15,7 +15,7 @@ using namespace std;
 
 int main() {
 	Table t("John", "Ruddiger");
-
+	t << cout;
 	
 	return 0;
 }

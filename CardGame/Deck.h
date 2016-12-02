@@ -9,5 +9,6 @@ class Deck : public vector<Card*> {
 public:
 	Deck() {};
 	Deck(istream& os, const CardFactory* cf);
+	ostream& operator<<(ostream& os);
 	Card* draw();
 };
