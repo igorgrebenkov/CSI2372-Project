@@ -19,7 +19,7 @@ public:
 	Table(istream& os, const CardFactory* cf);
 	ostream& operator<<(ostream&);
 	Player* const getPlayers(Player* arr[]) const;
-	Deck getDeck() const;
+	Deck& getDeck();
 	DiscardPile* const getDiscardPile() const;
 	TradeArea* const getTradeArea() const;
 	const bool win(string& s) const;

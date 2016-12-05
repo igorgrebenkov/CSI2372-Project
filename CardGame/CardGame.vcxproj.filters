@@ -33,13 +33,13 @@
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Chain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Hand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\%40git\School\CSI2372\Project\CSI2372-Project\CardGame\Chain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,57 +15,91 @@
 
 using namespace std;
 
+
 int main() {
 	Table t("John", "Ruddiger");
 
 	Player* arr[NUM_PLAYERS];
 	t.getPlayers(arr);
 
-	/*
+	
 	Deck d = t.getDeck();
-
+	/*
 	Card* b = d[0];
 	Chain<Emerald> ch;
 	ch += b;
 	ch << cout;
 	*/
+	while (!t.getDeck().empty()) {
+		for (Player* player : arr) {
+			// Option for buying third chain
+			if (player->getNumCoins() >= 3 &&
+				player->getMaxNumChains() == 2) {
 
-	for (Player* p : arr) {
-		// Option for buying third chain
-		if (p->getNumCoins() >= 3 &&
-			p->getMaxNumChains() == 2) {
+				char chainChoice = 0;
 
-			char chainChoice = 0;
+				cout << "Buy an extra chain? (y/n): ";
+				cin >> chainChoice;
 
-			cout << "Buy an extra chain? (y/n): ";
-			cin >> chainChoice;
-			
-			switch (tolower(chainChoice)) {
-				case 'y':
-					p->buyThirdChain();
-					break;
-				default:
-					break;
+				switch (tolower(chainChoice)) {
+					case 'y':
+						player->buyThirdChain();
+						break;
+					default:
+						break;
+				}
+			}
+
+			// Draw card from deck to player
+			*(player->getHand()) += t.getDeck().draw();
+
+			if ((t.getTradeArea())->empty()) {
+				// get topmost card from hand
+				Card* cardToPlay = player->getHand()->play();
+				string ctpName = cardToPlay->getName();
+
+				vector<Chain_Base*>* playerChains = player->getChains();
+
+				int i = 0;
+				bool cardAddedToChain = false;
+				const vector<string> chainTypes = player->getChainTypes();
+
+				// Check for a chain with matching card type
+				for (int i = 0; i < 3; i++) {
+					if (chainTypes[i] == ctpName) {
+						player->addCardToChain(i, ctpName, cardToPlay);
+					}
+				}
+				// Check for an available empty chain
+				if (!cardAddedToChain) {
+					for (int i = 0; i < 3; i++) {
+						if (chainTypes[i] == " ") {
+							player->createChain(i, ctpName);
+							player->addCardToChain(i, ctpName, cardToPlay);
+							break;
+						}
+					}
+				}
+				*player << cout;
+
+
+				// If a card hasn't been added, chains must be tied/sold 
+				// or player must buy a third chain (if possible)
+				if (!cardAddedToChain) {
+					if (chainTypes[2] == "empty") {
+						cout << "\nmust sell or buy a chain!\n" << endl;
+					}
+					else {
+						cout << "must sell a chain!" << endl;
+					}
+				}
+				else {
+
+				}
 			}
 		}
-
-		// Draw card from deck to player
-		*(p->getHand()) += t.getDeck().draw();
-
-		if ((t.getTradeArea())->empty()) {
-			Card* play = p->getHand()->play();
-			string cardName = play->getName();
-			vector<Chain_Base*> playerChains;
-			playerChains = p->getChains();
-			Chain<Ruby*>* c = static_cast<Chain<Ruby*>*>(playerChains[0]);
-			Deck d = t.getDeck();
-			//d << cout;
-			*c += d[7];
-			*c += d[42];
-		}
-
 	}
 
-	
+
 	return 0;
 }

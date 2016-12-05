@@ -40,13 +40,14 @@ inline Chain<T>& Chain<T>::operator+=(Card* c) {
 
 template <typename T>
 inline const ostream& Chain<T>::operator<<(ostream& os) {
+	os.width(12);
 	if (this->size() != 0) {	// prevents crash with empty vector
-		os << (*this)[0]->getName() << "\t";
-		for (T* c : *this) {
+		os << (*this)[0]->getName() << left;
+		for (T c : *this) {
 			os << c->getName()[0] << " ";
 		}
-		os << endl;
 	}
+	os << "\n";
 	return os;
 }
 template <typename T>

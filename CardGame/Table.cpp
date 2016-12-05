@@ -43,7 +43,7 @@ Player* const Table::getPlayers(Player* arr[]) const {
 	return *arr;
 }
 
-Deck Table::getDeck() const {
+Deck& Table::getDeck() {
 	return deck;
 }
 
@@ -54,7 +54,6 @@ DiscardPile* const Table::getDiscardPile() const {
 TradeArea* const Table::getTradeArea() const {
 	return tradeArea;
 }
-
 
 
 const bool Table::win(string& s) const {
