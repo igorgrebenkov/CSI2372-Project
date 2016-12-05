@@ -14,6 +14,6 @@ public:
 	const Hand& operator+=(Card* c);
 	const Card* operator[](int);
 	ostream& operator<<(ostream& os);
-	const Card* play();
+	Card* play();
 	const Card* top() const;
 };

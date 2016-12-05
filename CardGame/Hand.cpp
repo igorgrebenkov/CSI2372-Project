@@ -34,8 +34,7 @@ ostream& Hand::operator<<(ostream& os) {
 	return os;
 }
 
-
-const Card* Hand::play() {
+Card* Hand::play() {
 	Card* ret = this->front();
 	this->pop();
 	return ret;

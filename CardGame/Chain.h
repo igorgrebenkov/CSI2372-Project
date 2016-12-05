@@ -6,26 +6,35 @@ using namespace std;
 class CardFactory;
 
 
-template <typename T>
-class Chain_Base : public vector<T*> {
+class Chain_Base {
 public:
 	Chain_Base() {};
 };
 
 template <typename T>
-class Chain : public Chain_Base<T> {
+class Chain : public Chain_Base, public vector<T> {
 public:
-	Chain() {};
+	Chain() : Chain_Base() {};
 	Chain(istream& is, const CardFactory* cf) {};
 	Chain& operator+=(Card* c);
 	const ostream& operator<<(ostream& os);
 	int sell();
 };
 
+class IllegalType : public exception {
+	virtual const char* what() const throw() {
+		return "IllegalType Exception";
+	}
+};
 
 template <typename T>
 inline Chain<T>& Chain<T>::operator+=(Card* c) {
-	push_back(dynamic_cast<T*> (c));
+	T cast = dynamic_cast<T> (c);
+	if (cast != 0) {
+		push_back(cast);
+	} else {
+		throw new IllegalType();
+	}
 	return *this;
 }
 
@@ -40,7 +49,6 @@ inline const ostream& Chain<T>::operator<<(ostream& os) {
 	}
 	return os;
 }
-
 template <typename T>
 inline int Chain<T>::sell() {
 	int numCards = this->size();

@@ -21,6 +21,15 @@ int main() {
 	Player* arr[NUM_PLAYERS];
 	t.getPlayers(arr);
 
+	/*
+	Deck d = t.getDeck();
+
+	Card* b = d[0];
+	Chain<Emerald> ch;
+	ch += b;
+	ch << cout;
+	*/
+
 	for (Player* p : arr) {
 		// Option for buying third chain
 		if (p->getNumCoins() >= 3 &&
@@ -44,11 +53,15 @@ int main() {
 		*(p->getHand()) += t.getDeck().draw();
 
 		if ((t.getTradeArea())->empty()) {
-			const Card* play = p->getHand()->play();
-			vector<Chain_Base<Card*>*> playerChains;
+			Card* play = p->getHand()->play();
+			string cardName = play->getName();
+			vector<Chain_Base*> playerChains;
 			playerChains = p->getChains();
-			Chain_Base<Card*>* chain = playerChains[0];
-			*chain += play;
+			Chain<Ruby*>* c = static_cast<Chain<Ruby*>*>(playerChains[0]);
+			Deck d = t.getDeck();
+			//d << cout;
+			*c += d[7];
+			*c += d[42];
 		}
 
 	}
