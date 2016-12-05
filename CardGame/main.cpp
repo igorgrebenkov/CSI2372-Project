@@ -33,6 +33,7 @@ int main() {
 	while (!t.getDeck().empty()) {
 		for (Player* player : arr) {
 			// Option for buying third chain
+			t << cout;
 			if (player->getNumCoins() >= 3 &&
 				player->getMaxNumChains() == 2) {
 
@@ -80,17 +81,15 @@ int main() {
 						}
 					}
 				}
-				*player << cout;
-
 
 				// If a card hasn't been added, chains must be tied/sold 
 				// or player must buy a third chain (if possible)
 				if (!cardAddedToChain) {
 					if (chainTypes[2] == "empty") {
-						cout << "\nmust sell or buy a chain!\n" << endl;
+						//cout << "\nmust sell or buy a chain!\n" << endl;
 					}
 					else {
-						cout << "must sell a chain!" << endl;
+						//cout << "must sell a chain!" << endl;
 					}
 				}
 				else {

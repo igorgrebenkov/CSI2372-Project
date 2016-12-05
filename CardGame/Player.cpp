@@ -21,10 +21,13 @@ const Player& Player::operator+=(int i) {
 }
 
 ostream& Player::operator<<(std::ostream& os) const {
+	// Print Player name & number of coins
 	os.width(12);
 	os << left << name <<
 	left << numCoins << " coins" << endl;
 
+	// Need to cast Chain_Base* to the appropriate Chain template type
+	// so we may put the chain in the output stream
 	for (int i = 0; i < 3; i++) {
 		string chainType = chainTypes[i];
 		Chain_Base* chain = (*chains)[i];
@@ -76,11 +79,11 @@ ostream& Player::operator<<(std::ostream& os) const {
 }
 
 void Player::createChain(int index, string cardType) {
-	/*
-	if ((*chains)[index] != NULL) {
-		delete (*chains)[index]; // delete old chain
-	}
-	*/
+	// save pointer to previous chain so we can delete it
+	Chain_Base* toDelete = (*chains)[index];  
+
+	// Need to cast Chain_Base* to the appropriate Chain template type
+	// so we may create a new Chain of that type
 	switch (cardType.at(0)) {
 		case 'Q':
 			(*chains)[index] = new Chain<Quartz*>();
@@ -107,7 +110,8 @@ void Player::createChain(int index, string cardType) {
 			(*chains)[index] = new Chain<Emerald*>();
 			break;
 	}
-	chainTypes[index] = cardType;
+	chainTypes[index] = cardType;	// update chainType
+	delete toDelete;				// delete old chain
 }
 
 void Player::addCardToChain(int index, string cardType, Card* card) {
