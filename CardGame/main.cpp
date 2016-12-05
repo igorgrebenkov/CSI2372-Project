@@ -37,16 +37,14 @@ int main() {
 			if (player->getNumCoins() >= 3 &&
 				player->getMaxNumChains() == 2) {
 
-				char chainChoice = 0;
+				char chainBuyChoice = 0;
 
 				cout << "Buy an extra chain? (y/n): ";
-				cin >> chainChoice;
+				cin >> chainBuyChoice;
 
-				switch (tolower(chainChoice)) {
+				switch (tolower(chainBuyChoice)) {
 					case 'y':
 						player->buyThirdChain();
-						break;
-					default:
 						break;
 				}
 			}
@@ -55,46 +53,89 @@ int main() {
 			*(player->getHand()) += t.getDeck().draw();
 
 			if ((t.getTradeArea())->empty()) {
+				// Print top card, then hand
+				cout << player->getName() << "'s turn." << endl;
+				player->printHand(cout, false);
+				player->printHand(cout, true);
+
 				// get topmost card from hand
 				Card* cardToPlay = player->getHand()->play();
 				string ctpName = cardToPlay->getName();
 
+				
+					
 				vector<Chain_Base*>* playerChains = player->getChains();
 
 				int i = 0;
-				bool cardAddedToChain = false;
+				bool isCardAdded = false;
 				const vector<string> chainTypes = player->getChainTypes();
 
 				// Check for a chain with matching card type
 				for (int i = 0; i < 3; i++) {
 					if (chainTypes[i] == ctpName) {
 						player->addCardToChain(i, ctpName, cardToPlay);
+						isCardAdded = true;
 					}
 				}
 				// Check for an available empty chain
-				if (!cardAddedToChain) {
+				if (!isCardAdded) {
 					for (int i = 0; i < 3; i++) {
 						if (chainTypes[i] == " ") {
 							player->createChain(i, ctpName);
 							player->addCardToChain(i, ctpName, cardToPlay);
+							isCardAdded = true;
 							break;
 						}
 					}
 				}
-
 				// If a card hasn't been added, chains must be tied/sold 
 				// or player must buy a third chain (if possible)
-				if (!cardAddedToChain) {
-					if (chainTypes[2] == "empty") {
-						//cout << "\nmust sell or buy a chain!\n" << endl;
-					}
-					else {
-						//cout << "must sell a chain!" << endl;
+				if (!isCardAdded) {
+					int sellChoice = 0;
+					cout << "Chain ended. Which chain would you like to sell? (1-3)" << endl;
+					
+					bool isChoiceValid = false;
+					while (!isChoiceValid) {
+						cin >> sellChoice;
+						switch (sellChoice) {
+							case 1: {
+								Chain<Card*>* ch = static_cast<Chain<Card*>*>((*playerChains)[0]);
+								*player += ch->sell();
+								for (Card* c : *ch) {
+									*t.getDiscardPile() += c;
+								}
+								player->createChain(0, ctpName);
+								player->addCardToChain(0, ctpName, cardToPlay);
+								isChoiceValid = true;
+							}
+								break;
+							case 2: {
+								Chain<Card*>* ch = static_cast<Chain<Card*>*>((*playerChains)[1]);
+								*player += ch->sell();
+								for (Card* c : *ch) {
+									*t.getDiscardPile() += c;
+								}
+								player->createChain(1, ctpName);
+								player->addCardToChain(1, ctpName, cardToPlay);
+								isChoiceValid = true;
+							}
+								break;
+							case 3: 
+								if (chainTypes[3] != "empty") {
+									Chain<Card*>* ch = static_cast<Chain<Card*>*>((*playerChains)[2]);
+									*player += ch->sell();
+									for (Card* c : *ch) {
+										*t.getDiscardPile() += c;
+									}
+									player->createChain(2, ctpName);
+									player->addCardToChain(2, ctpName, cardToPlay);
+									isChoiceValid = true;
+								}
+								break;
+						}
 					}
 				}
-				else {
-
-				}
+				
 			}
 		}
 	}

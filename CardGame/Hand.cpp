@@ -26,6 +26,8 @@ const Card* Hand::operator[](int i) {
 
 ostream& Hand::operator<<(ostream& os) {
 	size_t j = 0;
+	os.width(6);
+	os << "Hand: " << left;
 	while (j != this->size()) {
 		os << (*this)[j]->getName()[0] << " ";
 		j++;

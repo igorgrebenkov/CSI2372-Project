@@ -38,7 +38,7 @@ ostream& Table::operator<<(ostream& os) {
 	os << "Trade Area: ";
 	*tradeArea << os;
 	os << "------------------------------------------------------------" << endl;
-	os << endl << endl;
+	os << endl;
 	return os;
 } 
 

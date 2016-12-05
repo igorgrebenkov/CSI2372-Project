@@ -54,7 +54,7 @@ template <typename T>
 inline int Chain<T>::sell() {
 	int numCards = this->size();
 	if (numCards != 0) {
-		T* card = (*this)[0];
+		T card = (*this)[0];
 
 		if (numCards >= card->getCardsPerCoin(1) &&
 			numCards < card->getCardsPerCoin(2)) {

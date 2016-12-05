@@ -75,12 +75,26 @@ ostream& Player::operator<<(std::ostream& os) const {
 		}
 	}
 	return os;
+}
 
+const Chain_Base& Player::operator[](int i) {
+	return *(*chains)[i];
 }
 
 void Player::createChain(int index, string cardType) {
 	// save pointer to previous chain so we can delete it
 	Chain_Base* toDelete = (*chains)[index];  
+
+	// If the chain isn't empty, it's being tied and sold
+	// So we must add the cards to the discard pile
+	/*
+	if (chainTypes[index] != " ") {
+		Chain<Card*>* c = static_cast<Chain<Card*>*>(toDelete);
+		for (Card* card : *c) {
+			
+		}
+	}
+	*/
 
 	// Need to cast Chain_Base* to the appropriate Chain template type
 	// so we may create a new Chain of that type
@@ -111,7 +125,7 @@ void Player::createChain(int index, string cardType) {
 			break;
 	}
 	chainTypes[index] = cardType;	// update chainType
-	delete toDelete;				// delete old chain
+	//delete toDelete;				// delete old chain
 }
 
 void Player::addCardToChain(int index, string cardType, Card* card) {
@@ -160,6 +174,13 @@ void Player::addCardToChain(int index, string cardType, Card* card) {
 	}
 }
 
+vector<Chain_Base*>* Player::getChains() const {
+	return chains;
+}
+
+const vector<string> Player::getChainTypes() const {
+	return chainTypes;
+}
 
 Hand* const Player::getHand() const {
 	return hand;
@@ -170,15 +191,6 @@ const string Player::getName() const {
 	return name;
 }
 
-vector<Chain_Base*>* Player::getChains() const {
-	return chains;
-}
-
-const vector<string> Player::getChainTypes() const {
-	return chainTypes;
-}
-
-
 const int Player::getNumCoins() const {
 	return numCoins;
 }
@@ -188,37 +200,28 @@ const int Player::getMaxNumChains() const {
 }
 
 const int Player::getNumChains() const {
-	int numChains = 0;
-	for (Chain_Base* c : *chains) {
-		Chain<Ruby*>* t = static_cast<Chain<Ruby*>*>(c);
-		if (t->size() > 0) {
-			numChains++;
-		}
-	}
-	return numChains;
+	return (chainTypes[2] == "empty") ? 2 : 3;
 }
-
-const Chain_Base& Player::operator[](int i) {
-	return *(*chains)[i];
-}
-
 
 void Player::buyThirdChain() {
-	// ADD EXCEPTION HANDLING
-	if (numCoins >= 2) {
-		chains->push_back(new Chain<Ruby*>());
+	// Must have 3 coins and two active chains
+	if (numCoins >= 3 &&
+		chainTypes[0] != " " &&
+		chainTypes[1] != " ")  {
+		chainTypes[3] = " ";
 	}
 	else {
-		// exception here
+		throw new NotEnoughCoins();
 	}
 }
 
 void Player::printHand(std::ostream& os, bool b) const {
-	if (!b) {
-		os << (hand->front())->getName() << endl;
+	os.width(6);
+	if (b) {
+		*hand << cout;
 	}
 	else {
-		os << hand;
+		os << "Top: " << (hand->front())->getName() << endl;	
 	}
 }
 
