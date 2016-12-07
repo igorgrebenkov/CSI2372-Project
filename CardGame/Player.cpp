@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Player::Player(const string& s) : name(s), numCoins(4),
+Player::Player(const string& s) : name(s), numCoins(0),
 chainTypes{ " ", " ", "noChain" } {
 	chains = new vector<Chain_Base*>();
 	chains->push_back(new Chain_Base());
