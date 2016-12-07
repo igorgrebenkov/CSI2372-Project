@@ -85,17 +85,6 @@ void Player::createChain(int index, string cardType) {
 	// save pointer to previous chain so we can delete it
 	Chain_Base* toDelete = (*chains)[index];  
 
-	// If the chain isn't empty, it's being tied and sold
-	// So we must add the cards to the discard pile
-	/*
-	if (chainTypes[index] != " ") {
-		Chain<Card*>* c = static_cast<Chain<Card*>*>(toDelete);
-		for (Card* card : *c) {
-			
-		}
-	}
-	*/
-
 	// Need to cast Chain_Base* to the appropriate Chain template type
 	// so we may create a new Chain of that type
 	switch (cardType.at(0)) {

@@ -45,9 +45,10 @@ int main() {
 
 	while (!t.getDeck().empty()) {
 		for (Player* const player : arr) {
-			/* The last step where two cards are drawn from the deck may result in an empty deck
-			   If this happens during Player 1's turn, Player 2 might try to draw from the empty
-			   deck. So we break out of this loop in that case. */
+			/* The last step where two cards are drawn from the deck may result 
+			   in an empty deck. If this happens during Player 1's turn, Player 2 
+			   might try to draw from the empty deck. So we break out of this loop 
+			   in that case. */
 			if (t.getDeck().empty()) {
 				break;
 			}
@@ -160,7 +161,8 @@ void playCards(Table& t, Player* const player) {
 
 		// After the first played card, ask if the user wants to play another card
 		if (askCount == 0) {
-			cout << player->getName() << ": Would you like to play another card? (y/n): ";
+			cout << player->getName() 
+				<< ": Would you like to play another card? (y/n): ";
 
 			char playAgainChoice = 0;
 			cin >> playAgainChoice;
@@ -179,7 +181,6 @@ void playCards(Table& t, Player* const player) {
 		askCount++;
 	}
 }
-
 
 /**
 * Function: tryPlayTopCard
@@ -228,10 +229,12 @@ void sellChain(const Table& t, Player* const player,
 	const vector<string> chainTypes = player->getChainTypes();
 
 	if (player->getMaxNumChains() == 2) {
-		cout << player->getName() << ": Chain ended. Which chain would you like to sell? (1-2): ";
+		cout << player->getName() 
+			<< ": Chain ended. Which chain would you like to sell? (1-2): ";
 	}
 	else {
-		cout << player->getName() << ": Chain ended. Which chain would you like to sell? (1-3): ";
+		cout << player->getName() 
+			<< ": Chain ended. Which chain would you like to sell? (1-3): ";
 	}
 
 	bool isChoiceValid = false;
@@ -293,7 +296,8 @@ void sellChain(const Table& t, Player* const player,
 **/
 void askToDiscard(const Table& t, Player* const player) {
 	char discardCardChoice = 0;
-	cout << player->getName() << ": Would you like to discard one of your cards? (y/n): ";
+	cout << player->getName() 
+		<< ": Would you like to discard one of your cards? (y/n): ";
 	cin >> discardCardChoice;
 
 	if (tolower(discardCardChoice) == 'y') {
@@ -302,7 +306,8 @@ void askToDiscard(const Table& t, Player* const player) {
 		int cardDiscardIndex = 0;
 		bool isCardAdded = false;
 		while (!isCardAdded) {
-			cout << "Which card would you like to discard? (1 - " << handUpperRange + 1 << "): ";
+			cout << "Which card would you like to discard? (1 - " 
+				<< handUpperRange + 1 << "): ";
 			cin >> cardDiscardIndex;
 
 			// Check for valid numeric input
@@ -358,7 +363,9 @@ void putMatchingDiscardToTradeArea(Table& t) {
 	   So, to avoid this, we shuffle the discard pile before this step.
 	*/
 	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-	shuffle(begin(*t.getDiscardPile()), end(*t.getDiscardPile()), default_random_engine(seed));
+	shuffle(begin(*t.getDiscardPile()), 
+		end(*t.getDiscardPile()), 
+		default_random_engine(seed));
 
 	bool matchFound = true;
 	while (matchFound) {
@@ -397,7 +404,8 @@ void askToChainInTradeArea(Table& t, Player* const player) {
 			t << cout;
 			Card* card = *it;
 			char chainTAChoice = 0;
-			cout << player->getName() << ": Chain card " << card->getName() << "? (y/n): ";
+			cout << player->getName() << ": Chain card " 
+				<< card->getName() << "? (y/n): ";
 			cin >> chainTAChoice;
 			cout << endl;
 
