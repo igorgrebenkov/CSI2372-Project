@@ -1,6 +1,8 @@
 #include <string>
 #include <iostream>
 #include <queue>
+#include <chrono>
+#include <random>
 
 #include "Card.h"
 #include "CardFactory.h"
@@ -27,9 +29,17 @@ void putMatchingDiscardToTradeArea(Table& t);
 void askToChainInTradeArea(Table& t, Player* const player);
 
 int main() {
-	Table t("John", "Ruddiger");
+	/* Get player names. */
+	string p1Name, p2Name = "";
+	cout << "Player 1 name: ";
+	cin >> p1Name;
+	cout << "Player 2 name: ";
+	cin >> p2Name;
 
-	// Get array of players
+	/* Init table. */
+	Table t(p1Name, p2Name);
+
+	/* Get player array. */
 	Player* arr[NUM_PLAYERS];
 	t.getPlayers(arr);
 
@@ -337,6 +347,19 @@ void drawThreeCardsToTradeArea(Table& t) {
 * Returns: n/a
 **/
 void putMatchingDiscardToTradeArea(Table& t) {
+	/* If a player sells a chain, they all go on the discard pile.
+	   If the next player gets a card in their trade area that matches
+	   the card type of the last player's sold chain, they will be able
+	   to add that other person's whole chain to theirs.
+
+	   This was pointed out on the CSI2372 Blackboard discussion board
+	   by another student. 
+	   
+	   So, to avoid this, we shuffle the discard pile before this step.
+	*/
+	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+	shuffle(begin(*t.getDiscardPile()), end(*t.getDiscardPile()), default_random_engine(seed));
+
 	bool matchFound = true;
 	while (matchFound) {
 		if (!t.getTradeArea()->empty() && !t.getDiscardPile()->empty()) {

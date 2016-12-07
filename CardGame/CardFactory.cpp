@@ -1,7 +1,8 @@
 #include<vector>
 #include <iostream>
 #include <algorithm>
-#include<random>
+#include <random>
+#include <chrono>
 
 #include "CardFactory.h"
 #include "Card.h"
@@ -37,8 +38,10 @@ CardFactory::CardFactory() {
 	for (int i = 0; i < 6; i++) {
 		deck.push_back(createCard("Emerald"));
 	}
-	auto engine = default_random_engine{};
-	shuffle(begin(deck), end(deck), engine);
+
+	// generates a seed based on the current time for random shuffle
+	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+	shuffle(begin(deck), end(deck), default_random_engine(seed));
 }
 
 const CardFactory* CardFactory::getFactory() {
