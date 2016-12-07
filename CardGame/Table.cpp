@@ -10,6 +10,7 @@ Table::Table(const string& p1Name, const string& p2Name) {
 	Hand* p1Hand = p1->getHand();
 	Hand* p2Hand = p2->getHand();
 
+	// Draw 5 cards from the deck to each player's hand
 	for (int i = 0; i < 5; i++) {
 		*p1Hand += deck.draw();
 		*p2Hand += deck.draw();
@@ -24,7 +25,6 @@ Table::Table(istream& os, const CardFactory* cf) {
 }
 
 ostream& Table::operator<<(ostream& os) {
-	os << endl;
 	os << "------------------------------------------------------------" << endl;
 	os << "Player 1: " << endl;
 	os << "------------------------------------------------------------" << endl;
@@ -38,6 +38,8 @@ ostream& Table::operator<<(ostream& os) {
 	discardPile->print(cout);
 	os << "Trade Area: ";
 	*tradeArea << os;
+	os << "Cards in Deck: ";
+	os << deck.size() << endl;
 	os << "------------------------------------------------------------" << endl;
 	os << endl;
 	return os;

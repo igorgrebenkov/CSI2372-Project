@@ -17,155 +17,58 @@ using namespace std;
 
 void printPlayerHand(const Table& t, Player* const player);
 void askToBuyChain(const Table& t, Player* const player);
+void playCards(Table& t, Player* const player);
 bool tryPlayTopCard(const Table& t, Player* const player, Card*, const string);
 void sellChain(const Table& t, Player* const player,
 	vector<Chain_Base*>*, Card*, const string);
 void askToDiscard(const Table& t, Player* const player);
-
+void drawThreeCardsToTradeArea(Table& t);
+void putMatchingDiscardToTradeArea(Table& t);
+void askToChainInTradeArea(Table& t, Player* const player);
 
 int main() {
 	Table t("John", "Ruddiger");
 
+	// Get array of players
 	Player* arr[NUM_PLAYERS];
 	t.getPlayers(arr);
 
-
-	Deck d = t.getDeck();
-	/*
-	Card* b = d[0];
-	Chain<Emerald> ch;
-	ch += b;
-	ch << cout;
-	*/
 	while (!t.getDeck().empty()) {
 		for (Player* const player : arr) {
-			// The last step where two cards are drawn from the deck may result in an empty deck
-			// If this happens during Player 1's turn, Player 2 might try to draw from the empty
-			// deck. So we break out of this loop in that case.
+			/* The last step where two cards are drawn from the deck may result in an empty deck
+			   If this happens during Player 1's turn, Player 2 might try to draw from the empty
+			   deck. So we break out of this loop in that case. */
 			if (t.getDeck().empty()) {
 				break;
 			}
-			// Print table
+			/* Print table. */
 			t << cout;
 			
-			// Ask the player if they want to buy another chain.
+			/* Asks the player if they want to buy another chain. */
 			askToBuyChain(t, player);
 
-			// Draw card from deck to player's hand
+			/* Draws card from deck to player's hand. */
 			*(player->getHand()) += t.getDeck().draw();
 
-			if (!t.getTradeArea()->empty()) {
+			/* Asks user if they want to chain each card in the trade area.*/
+			askToChainInTradeArea(t, player);
 
-			}
-			/* Plays topmost card, adds to a chain, ties & sells chains if necessary,
-			and plays the next topmost card if the user chooses to.*/
-			bool playAgain = true;
-			int askCount = 0;
-			while (playAgain) {
-				// Print player's top card for the turn
-				cout << player->getName() << "'s turn." << endl;
-				player->printHand(cout, false);
-
-				// get topmost card from hand 
-				vector<Chain_Base*>* playerChains = player->getChains();
-				Card* cardToPlay = player->getHand()->play();
-				const string ctpName = cardToPlay->getName();
-
-				// If a card hasn't been added, a chain must be tied & sold 
-				if (!tryPlayTopCard(t, player, cardToPlay, ctpName)) {
-					sellChain(t, player, playerChains, cardToPlay, ctpName);
-				}
-
-				// Print table again to show updated chains
-				t << cout;
-
-				// After the first played card, ask if the user wants to play another card
-				if (askCount == 0) {
-					cout << player->getName() << ": Would you like to play another card? (y/n): ";
-
-					char playAgainChoice = 0;
-					cin >> playAgainChoice;
-
-					switch (tolower(playAgainChoice)) {
-						case 'y':
-							break;
-						default:
-							playAgain = false;
-							break;
-					}
-				}
-				else {
-					break;
-				}
-				askCount++;
-			}
-		
+			/* Plays one or two cards (if the player chooses to play two cards) */
+			playCards(t, player);
 
 			/* Asks the user if they would like to discard an arbitrary card.*/
 			askToDiscard(t, player);
 
-			/* Draw three cards from the deck and add to trade area*/
-			for (int i = 0; i < 3; i++) {
-				if (!t.getDeck().empty()) {
-					Card* toTradeArea = t.getDeck().draw();
-					*t.getTradeArea() += toTradeArea;
-				}
-				else {
-					break;
-				}
-			}
+			/* Draws three cards from the deck to the trade area. */
+			drawThreeCardsToTradeArea(t);
 
 			/* While top card of discard pile matches card in trade area,
-			   draw top card of discard pile to trade area*/
-			bool matchFound = true;
-			while (matchFound) {
-				if (!t.getTradeArea()->empty() && !t.getDiscardPile()->empty()) {
-					Card* topDiscard = t.getDiscardPile()->top();
-					for (Card* c : *t.getTradeArea()) {
-						if (topDiscard->getName() == c->getName()) {
-							*t.getTradeArea() += t.getDiscardPile()->pickUp();
-							break;
-						}
-						else {
-							matchFound = false;
-						}
-					}
-				}
-				else {
-					break;
-				}
-			}
+			draw top card of discard pile to trade area*/
+			putMatchingDiscardToTradeArea(t);
 
 			/* Asks user if they want to chain each card in the trade area.*/
-			if (!t.getTradeArea()->empty()) {
-				TradeArea* ta = t.getTradeArea();
+			askToChainInTradeArea(t, player);
 
-				list<Card*>::iterator it;
-
-				for (it = ta->begin(); it != ta->end();) {
-					// Print table to update trade area view
-					t << cout;
-					Card* card = *it;
-					char chainTAChoice = 0;
-					cout << player->getName() << ": Chain card " << card->getName() << "? (y/n): ";
-					cin >> chainTAChoice;
-					cout << endl;
-
-					if (chainTAChoice == 'y') {
-						vector<Chain_Base*>* playerChains = player->getChains();
-						const string ctpName = card->getName();
-
-						// If a card hasn't been added, a chain must be tied & sold 
-						if (!tryPlayTopCard(t, player, card, ctpName)) {
-							sellChain(t, player, playerChains, card, ctpName);
-						}
-						it = ta->erase(it);
-					}
-					else {
-						it++;
-					}
-				}
-			}
 			// Draw two cards from the deck
 			for (int i = 0; i < 1; i++) {
 				if (!t.getDeck().empty()) {
@@ -173,8 +76,13 @@ int main() {
 				}
 			}
 		}
-
 	}
+	string winningPlayer = "";
+	t.win(winningPlayer);
+	cout << winningPlayer << " wins!!!" << endl;
+
+
+
 	return 0;
 }
 
@@ -184,9 +92,7 @@ int main() {
 * Returns: n/a
 **/
 void printPlayerHand(const Table& t, Player* const player) {
-	cout << player->getName() << "'s turn." << endl;
 	player->printHand(cout, false);
-	player->printHand(cout, true);
 }
 
 
@@ -213,6 +119,57 @@ void askToBuyChain(const Table& t, Player* const player) {
 		}
 	}
 }
+
+/**
+* Function: playCards
+* Description: plays one card, and then plays another card if the user chooses to
+* Returns: n/a
+**/
+void playCards(Table& t, Player* const player) {
+	/* Plays topmost card, adds to a chain, ties & sells chains if necessary,
+	and plays the next topmost card if the user chooses to.*/
+	bool playAgain = true;
+	int askCount = 0;
+	while (playAgain) {
+		// Print player's top card for the turn
+		cout << player->getName() << "'s turn." << endl;
+		player->printHand(cout, false);
+
+		// get topmost card from hand 
+		vector<Chain_Base*>* playerChains = player->getChains();
+		Card* cardToPlay = player->getHand()->play();
+		const string ctpName = cardToPlay->getName();
+
+		// If a card hasn't been added, a chain must be tied & sold 
+		if (!tryPlayTopCard(t, player, cardToPlay, ctpName)) {
+			sellChain(t, player, playerChains, cardToPlay, ctpName);
+		}
+
+		// Print table again to show updated chains
+		t << cout;
+
+		// After the first played card, ask if the user wants to play another card
+		if (askCount == 0) {
+			cout << player->getName() << ": Would you like to play another card? (y/n): ";
+
+			char playAgainChoice = 0;
+			cin >> playAgainChoice;
+
+			switch (tolower(playAgainChoice)) {
+				case 'y':
+					break;
+				default:
+					playAgain = false;
+					break;
+			}
+		}
+		else {
+			break;
+		}
+		askCount++;
+	}
+}
+
 
 /**
 * Function: tryPlayTopCard
@@ -312,7 +269,7 @@ void sellChain(const Table& t, Player* const player,
 				}
 				break;
 			default:
-				cout << "Please enter a valid number in the range." << endl;
+				cout << "Please enter a valid number in the range: ";
 				break;
 		}
 	}
@@ -354,6 +311,92 @@ void askToDiscard(const Table& t, Player* const player) {
 		}
 	}
 }
+
+/**
+* Function: drawThreeCardsToTradeArea
+* Description: draws three cards from the deck and adds them to the trade area
+* Returns: n/a
+**/
+void drawThreeCardsToTradeArea(Table& t) {
+	for (int i = 0; i < 3; i++) {
+		if (!t.getDeck().empty()) {
+			Card* toTradeArea = t.getDeck().draw();
+			*t.getTradeArea() += toTradeArea;
+		}
+		else {
+			break;
+		}
+	}
+}
+
+/**
+* Function: putMatchingDiscardToTradeArea
+* Description: inserts the top card from the discard pile into
+               the trade area while the top card matches any card
+			   in the trade area
+* Returns: n/a
+**/
+void putMatchingDiscardToTradeArea(Table& t) {
+	bool matchFound = true;
+	while (matchFound) {
+		if (!t.getTradeArea()->empty() && !t.getDiscardPile()->empty()) {
+			Card* topDiscard = t.getDiscardPile()->top();
+			for (Card* c : *t.getTradeArea()) {
+				if (topDiscard->getName() == c->getName()) {
+					*t.getTradeArea() += t.getDiscardPile()->pickUp();
+					break;
+				}
+				else {
+					matchFound = false;
+				}
+			}
+		}
+		else {
+			break;
+		}
+	}
+}
+
+/**
+* Function: askToChainInTradeArea
+* Description: asks the user if they would like to chain a card
+               in the trade area, one by one.
+* Returns: n/a
+**/
+void askToChainInTradeArea(Table& t, Player* const player) {
+	if (!t.getTradeArea()->empty()) {
+		TradeArea* ta = t.getTradeArea();
+
+		list<Card*>::iterator it;
+
+		for (it = ta->begin(); it != ta->end();) {
+			// Print table to update trade area view
+			t << cout;
+			Card* card = *it;
+			char chainTAChoice = 0;
+			cout << player->getName() << ": Chain card " << card->getName() << "? (y/n): ";
+			cin >> chainTAChoice;
+			cout << endl;
+
+			if (chainTAChoice == 'y') {
+				vector<Chain_Base*>* playerChains = player->getChains();
+				const string ctpName = card->getName();
+
+				// If a card hasn't been added, a chain must be tied & sold 
+				if (!tryPlayTopCard(t, player, card, ctpName)) {
+					sellChain(t, player, playerChains, card, ctpName);
+				}
+				it = ta->erase(it);
+			}
+			else {
+				it++;
+			}
+		}
+	}
+}
+
+
+
 
 
 
