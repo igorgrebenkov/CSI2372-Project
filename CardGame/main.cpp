@@ -99,9 +99,39 @@ int main() {
 
 			/* Draw three cards from the deck and add to trade area*/
 			for (int i = 0; i < 3; i++) {
-				Card* toTradeArea = t.getDeck().draw();
-				*t.getTradeArea() += toTradeArea;
+				if (!t.getDeck().empty()) {
+					Card* toTradeArea = t.getDeck().draw();
+					*t.getTradeArea() += toTradeArea;
+				}
+				else {
+					break;
+				}			
 			}
+
+			/* While top card of discard pile matches card in trade area,
+			   draw top card of discard pile to trade area*/
+			bool matchFound = true;
+			while (matchFound) {
+				if (!t.getTradeArea()->empty() && !t.getDiscardPile()->empty()) {
+					Card* topDiscard = t.getDiscardPile()->top();
+					for (Card* c : *t.getTradeArea()) {
+						if (topDiscard->getName() == c->getName()) {
+							*t.getTradeArea() += t.getDiscardPile()->pickUp();
+							break;
+						}
+						else {
+							matchFound = false;
+						}
+					}
+
+				}
+				else {
+					break;
+				}
+			}
+
+			cout << "GAME OVER" << endl;
+
 
 		}
 	}
@@ -255,13 +285,12 @@ void sellChain(const Table& t, Player* const player,
 * Returns: n/a
 **/
 void askToDiscard(const Table& t, Player* const player) {
-	char discardCardChoice = 0;
+char discardCardChoice = 0;
 	cout << "Would you like to discard one of your cards? (y/n): " << endl;
 	cin >> discardCardChoice;
 
-	player->printHand(cout, true);
-
 	if (tolower(discardCardChoice) == 'y') {
+		player->printHand(cout, true);
 		int handUpperRange = (player->getHand()->size() - 1);
 		int cardDiscardIndex = 0;
 		bool isCardAdded = false;

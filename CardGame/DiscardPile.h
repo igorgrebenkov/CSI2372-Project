@@ -12,7 +12,7 @@ public:
 	DiscardPile(istream& os, const CardFactory* cf);
 	const DiscardPile& operator+=(Card* card);
 	const ostream& operator<<(ostream& os);
-	const Card* pickUp();
-	const Card* top();
+	Card* pickUp();
+	Card* top();
 	void print(ostream& os);
 };

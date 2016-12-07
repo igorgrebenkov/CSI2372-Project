@@ -16,13 +16,13 @@ const ostream& DiscardPile::operator<<(ostream& os) {
 	return os;
 }
 
-const Card* DiscardPile::pickUp() {
-	const Card* topCard = back();
+Card* DiscardPile::pickUp() {
+	Card* topCard = back();
 	pop_back();
 	return topCard;
 }
 
-const Card* DiscardPile::top() {
+Card* DiscardPile::top() {
 	return back();
 }
 
