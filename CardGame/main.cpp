@@ -97,6 +97,12 @@ int main() {
 			/* Asks the user if they would like to discard an arbitrary card.*/
 			askToDiscard(t, player);
 
+			/* Draw three cards from the deck and add to trade area*/
+			for (int i = 0; i < 3; i++) {
+				Card* toTradeArea = t.getDeck().draw();
+				*t.getTradeArea() += toTradeArea;
+			}
+
 		}
 	}
 	return 0;
