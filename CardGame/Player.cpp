@@ -5,7 +5,7 @@
 using namespace std;
 
 Player::Player(const string& s) : name(s), numCoins(0),
-chainTypes{ " ", " ", "empty" } {
+chainTypes{ " ", " ", "noChain" } {
 	chains = new vector<Chain_Base*>();
 	chains->push_back(new Chain_Base());
 	chains->push_back(new Chain_Base());
@@ -196,11 +196,17 @@ const int Player::getNumCoins() const {
 }
 
 const int Player::getMaxNumChains() const {
-	return chains->size();
+	return (chainTypes)[2] == "noChain" ? 2 : 3;
 }
 
 const int Player::getNumChains() const {
-	return (chainTypes[2] == "empty") ? 2 : 3;
+	int maxNumChains = 0;
+	for (size_t i = 0; i < chainTypes.size(); i++) {
+		if (chainTypes[i] != " " && chainTypes[i] != "noChain") {
+			maxNumChains++;
+		}
+	}
+	return maxNumChains;
 }
 
 void Player::buyThirdChain() {
@@ -208,7 +214,7 @@ void Player::buyThirdChain() {
 	if (numCoins >= 3 &&
 		chainTypes[0] != " " &&
 		chainTypes[1] != " ")  {
-		chainTypes[3] = " ";
+		chainTypes[2] == " ";
 	}
 	else {
 		throw new NotEnoughCoins();

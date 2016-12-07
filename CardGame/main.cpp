@@ -15,6 +15,7 @@
 
 using namespace std;
 
+void askBuyChain(Table t);
 
 int main() {
 	Table t("John", "Ruddiger");
@@ -32,8 +33,9 @@ int main() {
 	*/
 	while (!t.getDeck().empty()) {
 		for (Player* player : arr) {
-			// Option for buying third chain
+			// Print table
 			t << cout;
+			// Option for buying third chain
 			if (player->getNumCoins() >= 3 &&
 				player->getMaxNumChains() == 2) {
 
@@ -92,7 +94,12 @@ int main() {
 				// or player must buy a third chain (if possible)
 				if (!isCardAdded) {
 					int sellChoice = 0;
-					cout << "Chain ended. Which chain would you like to sell? (1-3)" << endl;
+					if (player->getMaxNumChains() == 2) {
+						cout << "Chain ended. Which chain would you like to sell? (1-2)" << endl;
+					}
+					else {
+						cout << "Chain ended. Which chain would you like to sell? (1-3)" << endl;
+					}
 					
 					bool isChoiceValid = false;
 					while (!isChoiceValid) {
@@ -121,7 +128,7 @@ int main() {
 							}
 								break;
 							case 3: 
-								if (chainTypes[3] != "empty") {
+								if (player->getMaxNumChains() == 3 && chainTypes[3] != "noChain") {
 									Chain<Card*>* ch = static_cast<Chain<Card*>*>((*playerChains)[2]);
 									*player += ch->sell();
 									for (Card* c : *ch) {
@@ -133,6 +140,9 @@ int main() {
 								}
 								break;
 						}
+						if (!isChoiceValid) {
+							cout << "Please enter a valid number in the range." << endl;
+						}
 					}
 				}
 				
@@ -142,4 +152,8 @@ int main() {
 
 
 	return 0;
+}
+
+void askBuyChain(Table t) {
+
 }
