@@ -39,11 +39,17 @@ int main() {
 	*/
 	while (!t.getDeck().empty()) {
 		for (Player* const player : arr) {
+			// The last step where two cards are drawn from the deck may result in an empty deck
+			// If this happens during Player 1's turn, Player 2 might try to draw from the empty
+			// deck. So we break out of this loop in that case.
+			if (t.getDeck().empty()) {
+				break;
+			}
 			// Print table
 			t << cout;
-
+			
 			// Ask the player if they want to buy another chain.
-			askToBuyChain(t, player);
+			//askToBuyChain(t, player);
 
 			// Draw card from deck to player's hand
 			*(player->getHand()) += t.getDeck().draw();
@@ -75,7 +81,7 @@ int main() {
 
 				// After the first played card, ask if the user wants to play another card
 				if (askCount == 0) {
-					cout << player->getName() << ": Would you like to play another card? (y/n): " << endl;
+					cout << player->getName() << ": Would you like to play another card? (y/n): ";
 
 					char playAgainChoice = 0;
 					cin >> playAgainChoice;
@@ -93,6 +99,7 @@ int main() {
 				}
 				askCount++;
 			}
+		
 
 			/* Asks the user if they would like to discard an arbitrary card.*/
 			askToDiscard(t, player);
@@ -154,13 +161,19 @@ int main() {
 						}
 						it = ta->erase(it);
 					}
+					else {
+						it++;
+					}
 				}
 			}
-
-			cout << "GAME OVER" << endl;
-
-
+			// Draw two cards from the deck
+			for (int i = 0; i < 1; i++) {
+				if (!t.getDeck().empty()) {
+					*player->getHand() += t.getDeck().draw();
+				}
+			}
 		}
+
 	}
 	return 0;
 }
@@ -190,7 +203,7 @@ void askToBuyChain(const Table& t, Player* const player) {
 
 		char chainBuyChoice = 0;
 
-		cout << player->getName() <<": Buy an extra chain? (y/n): ";
+		cout << player->getName() << ": Buy an extra chain? (y/n): ";
 		cin >> chainBuyChoice;
 
 		switch (tolower(chainBuyChoice)) {
@@ -248,10 +261,10 @@ void sellChain(const Table& t, Player* const player,
 	const vector<string> chainTypes = player->getChainTypes();
 
 	if (player->getMaxNumChains() == 2) {
-		cout << player->getName() << ": Chain ended. Which chain would you like to sell? (1-2)" << endl;
+		cout << player->getName() << ": Chain ended. Which chain would you like to sell? (1-2): ";
 	}
 	else {
-		cout << player->getName() << ": Chain ended. Which chain would you like to sell? (1-3)" << endl;
+		cout << player->getName() << ": Chain ended. Which chain would you like to sell? (1-3): ";
 	}
 
 	bool isChoiceValid = false;
@@ -312,8 +325,8 @@ void sellChain(const Table& t, Player* const player,
 * Returns: n/a
 **/
 void askToDiscard(const Table& t, Player* const player) {
-char discardCardChoice = 0;
-	cout << player->getName() <<": Would you like to discard one of your cards? (y/n): " << endl;
+	char discardCardChoice = 0;
+	cout << player->getName() << ": Would you like to discard one of your cards? (y/n): ";
 	cin >> discardCardChoice;
 
 	if (tolower(discardCardChoice) == 'y') {

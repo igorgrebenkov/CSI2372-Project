@@ -211,9 +211,7 @@ const int Player::getNumChains() const {
 
 void Player::buyThirdChain() {
 	// Must have 3 coins and two active chains
-	if (numCoins >= 3 &&
-		chainTypes[0] != " " &&
-		chainTypes[1] != " ")  {
+	if (numCoins >= 3)  {
 		chainTypes[2] == " ";
 	}
 	else {
