@@ -8,7 +8,7 @@ const Hand& Hand::operator+=(Card* c) {
 	return *this;
 }
 
-const Card* Hand::operator[](int i) {
+Card* Hand::operator[](int i) {
 	size_t j = 0;
 	Card* saved = NULL;
 	Card* ret = NULL;

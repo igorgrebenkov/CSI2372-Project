@@ -12,7 +12,7 @@ public:
 	Hand() {};
 	Hand(istream& os, const CardFactory* cf);
 	const Hand& operator+=(Card* c);
-	const Card* operator[](int);
+	Card* operator[](int);
 	ostream& operator<<(ostream& os);
 	Card* play();
 	const Card* top() const;

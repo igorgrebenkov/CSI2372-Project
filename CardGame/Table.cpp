@@ -24,6 +24,7 @@ Table::Table(istream& os, const CardFactory* cf) {
 }
 
 ostream& Table::operator<<(ostream& os) {
+	os << endl;
 	os << "------------------------------------------------------------" << endl;
 	os << "Player 1: " << endl;
 	os << "------------------------------------------------------------" << endl;
