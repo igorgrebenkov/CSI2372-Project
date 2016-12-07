@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Player::Player(const string& s) : name(s), numCoins(0),
+Player::Player(const string& s) : name(s), numCoins(4),
 chainTypes{ " ", " ", "noChain" } {
 	chains = new vector<Chain_Base*>();
 	chains->push_back(new Chain_Base());
@@ -212,7 +212,7 @@ const int Player::getNumChains() const {
 void Player::buyThirdChain() {
 	// Must have 3 coins and two active chains
 	if (numCoins >= 3)  {
-		chainTypes[2] == " ";
+		chainTypes[2] = " ";
 	}
 	else {
 		throw new NotEnoughCoins();

@@ -49,7 +49,7 @@ int main() {
 			t << cout;
 			
 			// Ask the player if they want to buy another chain.
-			//askToBuyChain(t, player);
+			askToBuyChain(t, player);
 
 			// Draw card from deck to player's hand
 			*(player->getHand()) += t.getDeck().draw();
