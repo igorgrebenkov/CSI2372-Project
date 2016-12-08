@@ -1,9 +1,9 @@
-using namespace std;
 #include <iostream>
 #include "Deck.h"
 
-Deck::Deck(std::istream& is, const CardFactory* cf) {
+using namespace std;
 
+Deck::Deck(std::istream& is, const CardFactory* cf) {
 }
 
 ostream& Deck::operator<<(ostream& os) {

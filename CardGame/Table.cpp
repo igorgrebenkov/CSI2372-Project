@@ -21,7 +21,6 @@ Table::Table(const string& p1Name, const string& p2Name) {
 }
 
 Table::Table(istream& is) {
-	//const CardFactory* cf = CardFactory::getFactory();
 	const CardFactory* cf = CardFactory::getFactory();
 
 	string p1Str, p2Str, deckStr, discardStr, tradeStr;
@@ -33,6 +32,28 @@ Table::Table(istream& is) {
 	iss.clear();
 	iss.str(p2Str);
 	p2 = new Player(iss, cf);
+	iss.clear();
+	iss.str(deckStr);
+
+	Deck tmp = cf->getDeck();
+	deck = *new Deck();
+	for (char c : deckStr) {
+		if (c != ' ') {
+			vector<Card*>::iterator it = tmp.begin();
+			while (it != tmp.end()) {
+				Card* card = *it;
+				char firstLetter = card->getName().at(0);
+				if (firstLetter == c) {
+					deck.push_back(card);
+					break;
+				}
+				it++;
+			}
+		}
+	}
+
+	cout << deckStr;
+	//deck << cout;
 	
 	
 	//cout << p1Str << endl;
