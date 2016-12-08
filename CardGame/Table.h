@@ -14,9 +14,11 @@ private:
 	Deck deck;
 	DiscardPile* discardPile;
 	TradeArea* tradeArea;
+	void splitFileToStrings(istream&, string& p1, string& p2,
+		string& deck, string& discard, string& trade);
 public:
 	Table(const string& p1Name, const string& p2Name);
-	Table(istream& os, const CardFactory* cf);
+	Table(istream& os);
 	ostream& operator<<(ostream&);
 	Player* const getPlayers(Player* arr[]) const;
 	Deck& getDeck();

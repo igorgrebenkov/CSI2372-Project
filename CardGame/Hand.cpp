@@ -1,6 +1,20 @@
 #include "Hand.h"
 
-Hand::Hand(istream & os, const CardFactory* cf) {
+Hand::Hand(istream & is, const CardFactory* cf) {
+	string handStr;
+	getline(is, handStr);
+	Deck tmp = cf->getDeck();
+	for (char c : handStr) {
+		if (c != ' ') {
+			for (Card* card : tmp) {
+				char firstLetter = card->getName().at(0);
+				if (firstLetter == c) {
+					*this += card;
+					break;
+				}
+			}
+		}
+	}
 }
 
 const Hand& Hand::operator+=(Card* c) {
@@ -26,8 +40,7 @@ Card* Hand::operator[](int i) {
 
 ostream& Hand::operator<<(ostream& os) {
 	size_t j = 0;
-	os.width(6);
-	os << "Hand: " << left;
+	os << "Hand: ";
 	while (j != this->size()) {
 		os << (*this)[j]->getName()[0] << " ";
 		j++;

@@ -1,6 +1,6 @@
 #include "TradeArea.h"
 
-TradeArea::TradeArea(istream& os, const CardFactory* cf) {
+TradeArea::TradeArea(istream& is, const CardFactory* cf) {
 
 }
 

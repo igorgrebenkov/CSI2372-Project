@@ -2,14 +2,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <sstream>
+
 #include "Chain.h"
 #include "Hand.h"
+#include "CardFactory.h"
 using namespace std;
-
-enum class cardTypes {
-	Null, Quartz, Hematite, Obsidian, Malachite,
-	Turquoise, Ruby, Amethyst, Emerald
-};
 
 class Player {
 private:
@@ -20,6 +19,7 @@ private:
 	Hand* hand;
 public:
 	Player(const string& s);
+	Player(istream& is, const CardFactory* cf);
 	const Player& operator+=(int i);
 	ostream& operator<<(ostream& os) const;
 	const Chain_Base& operator[](int i);

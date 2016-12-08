@@ -2,6 +2,8 @@
 #include <queue>
 #include <deque>
 #include <vector>
+#include <iostream>
+#include "CardFactory.h"
 #include "Card.h"
 
 using namespace std;

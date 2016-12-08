@@ -3,6 +3,7 @@
 #include <queue>
 #include <chrono>
 #include <random>
+#include <fstream>
 
 #include "Card.h"
 #include "CardFactory.h"
@@ -29,11 +30,14 @@ void putMatchingDiscardToTradeArea(Table& t);
 void askToChainInTradeArea(Table& t, Player* const player);
 
 int main() {
+
+	
+
 	/* Get player names. */
 	string p1Name, p2Name = "";
-	cout << "Player 1 name: ";
+	std::cout << "Player 1 name: ";
 	cin >> p1Name;
-	cout << "Player 2 name: ";
+	std::cout << "Player 2 name: ";
 	cin >> p2Name;
 
 	/* Init table. */
@@ -43,8 +47,23 @@ int main() {
 	Player* arr[NUM_PLAYERS];
 	t.getPlayers(arr);
 
+	
+
 	while (!t.getDeck().empty()) {
 		for (Player* const player : arr) {
+
+			// Save game state to file
+			/*
+			ofstream outFile;
+			outFile.open("test.dat");
+			t.print(outFile);
+			outFile.close();
+			*/
+			
+			ifstream infile;
+			infile.open("test.dat");
+			Table test(infile);
+
 			/* The last step where two cards are drawn from the deck may result 
 			   in an empty deck. If this happens during Player 1's turn, Player 2 
 			   might try to draw from the empty deck. So we break out of this loop 
@@ -53,7 +72,7 @@ int main() {
 				break;
 			}
 			/* Print table. */
-			t << cout;
+			t << std::cout;
 			
 			/* Asks the player if they want to buy another chain. */
 			askToBuyChain(t, player);
@@ -90,7 +109,7 @@ int main() {
 	}
 	string winningPlayer = "";
 	t.win(winningPlayer);
-	cout << winningPlayer << " wins!!!" << endl;
+	std::cout << winningPlayer << " wins!!!" << endl;
 
 
 
@@ -103,7 +122,7 @@ int main() {
 * Returns: n/a
 **/
 void printPlayerHand(const Table& t, Player* const player) {
-	player->printHand(cout, false);
+	player->printHand(std::cout, false);
 }
 
 
@@ -120,7 +139,7 @@ void askToBuyChain(const Table& t, Player* const player) {
 
 		char chainBuyChoice = 0;
 
-		cout << player->getName() << ": Buy an extra chain? (y/n): ";
+		std::cout << player->getName() << ": Buy an extra chain? (y/n): ";
 		cin >> chainBuyChoice;
 
 		switch (tolower(chainBuyChoice)) {
@@ -143,8 +162,8 @@ void playCards(Table& t, Player* const player) {
 	int askCount = 0;
 	while (playAgain) {
 		// Print player's top card for the turn
-		cout << player->getName() << "'s turn." << endl;
-		player->printHand(cout, false);
+		std::cout << player->getName() << "'s turn." << endl;
+		player->printHand(std::cout, false);
 
 		// get topmost card from hand 
 		vector<Chain_Base*>* playerChains = player->getChains();
@@ -157,11 +176,11 @@ void playCards(Table& t, Player* const player) {
 		}
 
 		// Print table again to show updated chains
-		t << cout;
+		t << std::cout;
 
 		// After the first played card, ask if the user wants to play another card
 		if (askCount == 0) {
-			cout << player->getName() 
+			std::cout << player->getName() 
 				<< ": Would you like to play another card? (y/n): ";
 
 			char playAgainChoice = 0;
@@ -199,7 +218,7 @@ bool tryPlayTopCard(const Table& t, Player* const player,
 		if (chainTypes[i] == ctpName) {
 			player->addCardToChain(i, ctpName, cardToPlay);
 			isCardAdded = true;
-			cout << "Card added to chain " << i + 1 << "." << endl;
+			std::cout << "Card added to chain " << i + 1 << "." << endl;
 		}
 	}
 	// Check for an available empty chain and add to first one found
@@ -209,7 +228,7 @@ bool tryPlayTopCard(const Table& t, Player* const player,
 				player->createChain(i, ctpName);
 				player->addCardToChain(i, ctpName, cardToPlay);
 				isCardAdded = true;
-				cout << "Card added to chain " << i + 1 << "." << endl;
+				std::cout << "Card added to chain " << i + 1 << "." << endl;
 				break;
 			}
 		}
@@ -229,11 +248,11 @@ void sellChain(const Table& t, Player* const player,
 	const vector<string> chainTypes = player->getChainTypes();
 
 	if (player->getMaxNumChains() == 2) {
-		cout << player->getName() 
+		std::cout << player->getName() 
 			<< ": Chain ended. Which chain would you like to sell? (1-2): ";
 	}
 	else {
-		cout << player->getName() 
+		std::cout << player->getName() 
 			<< ": Chain ended. Which chain would you like to sell? (1-3): ";
 	}
 
@@ -249,7 +268,7 @@ void sellChain(const Table& t, Player* const player,
 				}
 				player->createChain(0, ctpName);
 				player->addCardToChain(0, ctpName, cardToPlay);
-				cout << "Chain 1 sold." << endl;
+				std::cout << "Chain 1 sold." << endl;
 				isChoiceValid = true;
 			}
 					  break;
@@ -261,7 +280,7 @@ void sellChain(const Table& t, Player* const player,
 				}
 				player->createChain(1, ctpName);
 				player->addCardToChain(1, ctpName, cardToPlay);
-				cout << "Chain 2 sold." << endl;
+				std::cout << "Chain 2 sold." << endl;
 				isChoiceValid = true;
 			}
 					  break;
@@ -278,11 +297,11 @@ void sellChain(const Table& t, Player* const player,
 					isChoiceValid = true;
 				}
 				else {
-					cout << "You do not currently have a third chain." << endl;
+					std::cout << "You do not currently have a third chain." << endl;
 				}
 				break;
 			default:
-				cout << "Please enter a valid number in the range: ";
+				std::cout << "Please enter a valid number in the range: ";
 				break;
 		}
 	}
@@ -296,23 +315,23 @@ void sellChain(const Table& t, Player* const player,
 **/
 void askToDiscard(const Table& t, Player* const player) {
 	char discardCardChoice = 0;
-	cout << player->getName() 
+	std::cout << player->getName() 
 		<< ": Would you like to discard one of your cards? (y/n): ";
 	cin >> discardCardChoice;
 
 	if (tolower(discardCardChoice) == 'y') {
-		player->printHand(cout, true);
+		player->printHand(std::cout, true);
 		int handUpperRange = (player->getHand()->size() - 1);
 		int cardDiscardIndex = 0;
 		bool isCardAdded = false;
 		while (!isCardAdded) {
-			cout << "Which card would you like to discard? (1 - " 
+			std::cout << "Which card would you like to discard? (1 - " 
 				<< handUpperRange + 1 << "): ";
 			cin >> cardDiscardIndex;
 
 			// Check for valid numeric input
 			if (cin.fail()) {
-				cout << "Please enter a valid card index." << endl;
+				std::cout << "Please enter a valid card index." << endl;
 				cin.clear();
 				cin.ignore();
 			}
@@ -401,13 +420,13 @@ void askToChainInTradeArea(Table& t, Player* const player) {
 
 		for (it = ta->begin(); it != ta->end();) {
 			// Print table to update trade area view
-			t << cout;
+			t << std::cout;
 			Card* card = *it;
 			char chainTAChoice = 0;
-			cout << player->getName() << ": Chain card " 
+			std::cout << player->getName() << ": Chain card " 
 				<< card->getName() << "? (y/n): ";
 			cin >> chainTAChoice;
-			cout << endl;
+			std::cout << endl;
 
 			if (chainTAChoice == 'y') {
 				vector<Chain_Base*>* playerChains = player->getChains();
