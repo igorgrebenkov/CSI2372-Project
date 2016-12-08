@@ -52,8 +52,20 @@ Table::Table(istream& is) {
 		}
 	}
 
-	cout << deckStr;
-	//deck << cout;
+	iss.clear();
+	iss.str(discardStr);
+	discardPile = new DiscardPile(iss, cf);
+
+	iss.clear();
+	iss.str(tradeStr);
+	tradeArea = new TradeArea(iss, cf);
+
+	cout << "Deck: ";
+	deck << cout;
+	cout << "Discard: ";
+	discardPile->print(cout);
+	cout << "Trade: ";
+	*tradeArea << cout;
 	
 	
 	//cout << p1Str << endl;
@@ -161,6 +173,7 @@ void Table::splitFileToStrings(istream& is, string& p1Str, string& p2Str,
 				case 0:
 					deckStr += line + "\n";
 					fileReadCnt++;
+					break;
 				case 1:
 					discardStr += line + "\n";
 					fileReadCnt++;

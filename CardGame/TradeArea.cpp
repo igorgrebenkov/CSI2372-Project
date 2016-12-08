@@ -1,6 +1,21 @@
 #include "TradeArea.h"
 
 TradeArea::TradeArea(istream& is, const CardFactory* cf) {
+	string tradeStr;
+	getline(is, tradeStr);
+	Deck tmp = cf->getDeck();
+
+	for (char c : tradeStr) {
+		if (c != ' ') {
+			for (Card* card : tmp) {
+				char firstLetter = card->getName().at(0);
+				if (firstLetter == c) {
+					*this += card;
+					break;
+				}
+			}
+		}
+	}
 
 }
 

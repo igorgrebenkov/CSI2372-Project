@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Card.h"
+#include "CardFactory.h"
 
 using namespace std;
 class CardFactory;

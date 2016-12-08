@@ -2,7 +2,21 @@
 using namespace std;
 
 DiscardPile::DiscardPile(std::istream& is, const CardFactory* cf) {
+	Deck tmp = cf->getDeck();
+	string discardStr;
+	getline(is, discardStr);
 
+	for (char c : discardStr) {
+		if (c != ' ') {
+			for (Card* card : tmp) {
+				char firstLetter = card->getName().at(0);
+				if (firstLetter == c) {
+					*this += card;
+					break;
+				}
+			}
+		}
+	}
 }
 
 const DiscardPile& DiscardPile::operator+=(Card* card) {
