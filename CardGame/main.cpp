@@ -30,6 +30,7 @@ void askToDiscard(const Table& t, Player* const player);
 void drawThreeCardsToTradeArea(Table& t);
 void putMatchingDiscardToTradeArea(Table& t);
 void askToChainInTradeArea(Table& t, Player* const player);
+void displayWinner(const Table& t);
 
 int main() {
 	Table* t;
@@ -78,6 +79,7 @@ int main() {
 			if (t->getDeck().empty()) {
 				break;
 			}
+
 			/* Print table. */
 			*t << std::cout;
 			
@@ -114,19 +116,18 @@ int main() {
 			}
 		}
 	}
-	string winningPlayer = "";
-	t->win(winningPlayer);
-	std::cout << winningPlayer << " wins!!!" << endl;
-	//remove("gameSave.dat");
 
-	delete t;
+	/* Display who won the game. */
+	displayWinner(*t);
+
+	delete t; // delete table
 	return 0;
 }
 
 /**
 * Function: askToPauseGame
 * Description: asks the user if they want to pause the game,
-               and serializes game data to a file if so
+*              and serializes game data to a file if so
 * Returns: n/a
 **/
 void askToPauseGame(Table& t) {
@@ -394,8 +395,8 @@ void drawThreeCardsToTradeArea(Table& t) {
 /**
 * Function: putMatchingDiscardToTradeArea
 * Description: inserts the top card from the discard pile into
-               the trade area while the top card matches any card
-			   in the trade area
+*              the trade area while the top card matches any card
+*			   in the trade area
 * Returns: n/a
 **/
 void putMatchingDiscardToTradeArea(Table& t) {
@@ -437,7 +438,7 @@ void putMatchingDiscardToTradeArea(Table& t) {
 /**
 * Function: askToChainInTradeArea
 * Description: asks the user if they would like to chain a card
-               in the trade area, one by one.
+*              in the trade area, one by one.
 * Returns: n/a
 **/
 void askToChainInTradeArea(Table& t, Player* const player) {
@@ -472,6 +473,34 @@ void askToChainInTradeArea(Table& t, Player* const player) {
 		}
 	}
 }
+
+/**
+* Function: displayWinner
+* Description: checks who won the game and displays their name
+* Returns: n/a
+**/
+void displayWinner(const Table& t) {
+	string winningPlayer = "";
+	t.win(winningPlayer);
+	cout << endl;
+	cout << "------------------------------------------------------------" << endl;
+	std::cout << "\t\t" << winningPlayer << " wins!" << endl;
+	cout << "------------------------------------------------------------" << endl;
+	cout << endl;
+
+	// Loops until user types exit to quit the game. This prevents the
+	// user from accidentally closing the window when a game has ended,
+    // which would prevent them from seeing who won.
+	string exitChoice;
+	while (exitChoice != "exit") {
+		cout << "Type \"exit\" to exit the game: ";
+		cin >> exitChoice;
+		transform(exitChoice.begin(), exitChoice.end(), exitChoice.begin(), tolower);
+	}
+
+	remove("gameSave.dat"); // delete the saved game
+}
+
 
 
 
