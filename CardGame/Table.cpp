@@ -20,9 +20,7 @@ Table::Table(const string& p1Name, const string& p2Name) {
 	tradeArea = new TradeArea();
 }
 
-Table::Table(istream& is) {
-	const CardFactory* cf = CardFactory::getFactory();
-
+Table::Table(istream& is, const CardFactory* cf) {
 	string p1Str, p2Str, deckStr, discardStr, tradeStr;
 	splitFileToStrings(is, p1Str, p2Str, deckStr, discardStr, tradeStr);
 
@@ -60,12 +58,14 @@ Table::Table(istream& is) {
 	iss.str(tradeStr);
 	tradeArea = new TradeArea(iss, cf);
 
+	/*
 	cout << "Deck: ";
 	deck << cout;
 	cout << "Discard: ";
 	discardPile->print(cout);
 	cout << "Trade: ";
 	*tradeArea << cout;
+	*/
 	
 	
 	//cout << p1Str << endl;

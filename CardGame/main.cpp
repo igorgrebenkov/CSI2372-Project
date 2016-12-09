@@ -13,13 +13,15 @@
 #include "Chain.h"
 #include "Hand.h"
 #include "Table.h"
+#include "CardFactory.h"
 
 #define NUM_PLAYERS 2
 
 using namespace std;
 
+void askToPauseGame(Table& t);
 void printPlayerHand(const Table& t, Player* const player);
-void askToBuyChain(const Table& t, Player* const player);
+void askToBuyChain(Player* const player);
 void playCards(Table& t, Player* const player);
 bool tryPlayTopCard(const Table& t, Player* const player, Card*, const string);
 void sellChain(const Table& t, Player* const player,
@@ -30,91 +32,118 @@ void putMatchingDiscardToTradeArea(Table& t);
 void askToChainInTradeArea(Table& t, Player* const player);
 
 int main() {
+	Table* t;
 
-	
+	ifstream infile;
+	infile.open("gameSave.dat");
+	/* Load game from file if file exists. */
+	if (infile) {	
+		const CardFactory* cf = CardFactory::getFactory();
+		t = new Table(infile, cf);
+		infile.close();
+	}
+	else {
+		/* Get player names. */
+		string p1Name, p2Name = "";
+		std::cout << "Player 1 name: ";
+		cin >> p1Name;
+		std::cout << "Player 2 name: ";
+		cin >> p2Name;
 
-	/* Get player names. */
-	string p1Name, p2Name = "";
-	std::cout << "Player 1 name: ";
-	cin >> p1Name;
-	std::cout << "Player 2 name: ";
-	cin >> p2Name;
+		/* Init table. */
+		t = new Table(p1Name, p2Name);
+	}
 
-	/* Init table. */
-	Table t(p1Name, p2Name);
-
-	/* Get player array. */
+	/* Create player array. */
 	Player* arr[NUM_PLAYERS];
-	t.getPlayers(arr);
+	t->getPlayers(arr);
 
-	
-
-	while (!t.getDeck().empty()) {
+	bool firstRun = true; // flag to indicate first run of main loop
+	while (!t->getDeck().empty()) {
 		for (Player* const player : arr) {
 
-			// Save game state to file
-			/*
-			ofstream outFile;
-			outFile.open("test.dat");
-			t.print(outFile);
-			outFile.close();
-			*/
-			
-			ifstream infile;
-			infile.open("test.dat");
-			Table test(infile);
-
+			/* Make sure we don't ask to pause the game on 
+			the first iteration of the main loop. */
+			if (!firstRun) {
+				askToPauseGame(*t);
+				firstRun = false;
+			} else {
+				firstRun = false;
+			}
+		
 			/* The last step where two cards are drawn from the deck may result 
 			   in an empty deck. If this happens during Player 1's turn, Player 2 
 			   might try to draw from the empty deck. So we break out of this loop 
 			   in that case. */
-			if (t.getDeck().empty()) {
+			if (t->getDeck().empty()) {
 				break;
 			}
 			/* Print table. */
-			t << std::cout;
+			*t << std::cout;
 			
 			/* Asks the player if they want to buy another chain. */
-			askToBuyChain(t, player);
+			askToBuyChain(player);
 
 			/* Draws card from deck to player's hand. */
-			*(player->getHand()) += t.getDeck().draw();
+			*(player->getHand()) += t->getDeck().draw();
 
 			/* Asks user if they want to chain each card in the trade area.*/
-			askToChainInTradeArea(t, player);
+			askToChainInTradeArea(*t, player);
 
 			/* Plays one or two cards (if the player chooses to play two cards) */
-			playCards(t, player);
+			playCards(*t, player);
 
 			/* Asks the user if they would like to discard an arbitrary card.*/
-			askToDiscard(t, player);
+			askToDiscard(*t, player);
 
 			/* Draws three cards from the deck to the trade area. */
-			drawThreeCardsToTradeArea(t);
+			drawThreeCardsToTradeArea(*t);
 
 			/* While top card of discard pile matches card in trade area,
 			draw top card of discard pile to trade area*/
-			putMatchingDiscardToTradeArea(t);
+			putMatchingDiscardToTradeArea(*t);
 
 			/* Asks user if they want to chain each card in the trade area.*/
-			askToChainInTradeArea(t, player);
+			askToChainInTradeArea(*t, player);
 
 			// Draw two cards from the deck
 			for (int i = 0; i < 1; i++) {
-				if (!t.getDeck().empty()) {
-					*player->getHand() += t.getDeck().draw();
+				if (!t->getDeck().empty()) {
+					*player->getHand() += t->getDeck().draw();
 				}
 			}
 		}
 	}
 	string winningPlayer = "";
-	t.win(winningPlayer);
+	t->win(winningPlayer);
 	std::cout << winningPlayer << " wins!!!" << endl;
+	//remove("gameSave.dat");
 
-
-
+	delete t;
 	return 0;
 }
+
+/**
+* Function: askToPauseGame
+* Description: asks the user if they want to pause the game,
+               and serializes game data to a file if so
+* Returns: n/a
+**/
+void askToPauseGame(Table& t) {
+	string pauseChoice = "";
+	cout << "Would you like to save the game and exit? (yes/n): " << endl;
+	cin >> pauseChoice;
+	transform(pauseChoice.begin(), pauseChoice.end(), pauseChoice.begin(), tolower);
+
+	if (pauseChoice == "yes") {
+		ofstream outFile;
+		outFile.open("gameSave.dat");
+		t.print(outFile);
+		outFile.close();
+		exit(1);
+	}
+}
+
 
 /**
 * Function: printPlayerHand
@@ -133,7 +162,7 @@ void printPlayerHand(const Table& t, Player* const player) {
  *              they would like to purchase one.
  * Returns: n/a
  **/
-void askToBuyChain(const Table& t, Player* const player) {
+void askToBuyChain(Player* const player) {
 	if (player->getNumCoins() >= 3 &&
 		player->getMaxNumChains() == 2) {
 
@@ -161,8 +190,7 @@ void playCards(Table& t, Player* const player) {
 	bool playAgain = true;
 	int askCount = 0;
 	while (playAgain) {
-		// Print player's top card for the turn
-		std::cout << player->getName() << "'s turn." << endl;
+		cout << "Playing card: ";
 		player->printHand(std::cout, false);
 
 		// get topmost card from hand 

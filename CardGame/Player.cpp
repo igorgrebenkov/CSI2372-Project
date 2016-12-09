@@ -13,19 +13,23 @@ chainTypes{ " ", " ", "noChain" } {
 }
 
 Player::Player(istream& is, const CardFactory* cf) {
-	string line;
-	int chainTypeIndex = 0;
-	vector<int> cardsPerChain;
-	string pName;
-	string pHand;
+	string line; // used to read lines from the input stream
 
+	// keeps track of the number of cards we need to create per chain
+	vector<int> cardsPerChain; 
+
+	string pName; // player's name read from inputstream
+	string pHand; // player's hand read from inputstream
+
+	// Read lines until eof
 	while (!is.eof()) {
 		getline(is, line);
 		int find = line.find("coins");
 		int find2 = line.find("Hand:");
+		// Extract # of coins from the string
 		if (!(find == string::npos)) {
 			char nc = line.at(find - 2);
-			numCoins = nc - '0';
+			numCoins = nc - '0'; // initialize numCoins
 			for (char c : line) {
 				if (c != ' ') {
 					pName += c;
@@ -37,58 +41,64 @@ Player::Player(istream& is, const CardFactory* cf) {
 			}
 		}
 		else if (find2 == string::npos) {
-			bool haveChainName = false;
+			// flag used to indicate we have the name of the present chain
+			bool haveChainName = false; 
+			// the name of the present chain
 			string chainName;
+			// the number of cards in this chain
 			int numCardsInChain = 0;
 			for (char c : line) {
-				if (c != ' ' && !haveChainName) {
+				if (c != ' ' && !haveChainName) { // getting chain name
 					chainName += c;
 				}
-				else if (c == ' ' && !haveChainName) {
+				else if (c == ' ' && !haveChainName) { // we have the name
 					haveChainName = true;
 				}
-				else if (c != ' ' && haveChainName) {
+				else if (c != ' ' && haveChainName) { // get # cards in chain
 					numCardsInChain++;
 				}
 			}
+			// save type of chain and cards per chain for present chain
 			if (numCardsInChain != 0 && !chainName.empty()) {
 				cardsPerChain.push_back(numCardsInChain);
 				chainTypes.push_back(chainName);
-				chainTypeIndex++;
 			}
 		}
-		else if (!(find2 == string::npos)) {
-			for (char c : line) {
-
-			}
-			pHand = line.substr(find + 7);
+		else if (!(find2 == string::npos)) { // get hand from inputstream
+			pHand = line.substr(find + 7); 
 		}
 	}
 
-	name = pName;
+	name = pName; // initialize player name
 
+	// If there's no third chain, insert the placeholder chain type
+	// we use to indicate this
 	if (chainTypes.size() == 2) {
 		chainTypes.push_back("noChain");
 	}
 
+	// Create empty chains
 	chains = new vector<Chain_Base*>();
 	chains->push_back(new Chain_Base());
 	chains->push_back(new Chain_Base());
 	chains->push_back(new Chain_Base());
 
+	// Get a temp deck we can use to insert cards into the chain
 	Deck tmp = cf->getDeck();
 	for (size_t i = 0; i < cardsPerChain.size(); i++) {
-		string cardName = chainTypes[i];
+		string cardName = chainTypes[i]; // get this chain's card type
 		Card* toAdd;
-		for (Card* c : tmp) {
+		for (Card* c : tmp) { // find a matching card in the deck
 			if (c->getName() == cardName) {
 				toAdd = c;
 				break;
 			}
 		}
-
+		// Create a new chain for that card's type
 		createChain(i, chainTypes[i]);
-		int cardCnt = 0;
+
+		// Add cards until chain has requisite number of cards
+		int cardCnt = 0; 
 		while (cardCnt < cardsPerChain[i]) {
 			addCardToChain(i, chainTypes[i], toAdd);
 			cardCnt++;
@@ -97,8 +107,7 @@ Player::Player(istream& is, const CardFactory* cf) {
 
 	istringstream iss(pHand);
 	hand = new Hand(iss, cf);
-	*this << cout;
-	*this->getHand() << cout;
+	iss.clear();
 }
 
 
@@ -301,7 +310,7 @@ void Player::printHand(std::ostream& os, bool b) const {
 		*hand << cout;
 	}
 	else {
-		os << "Top: " << (hand->front())->getName() << endl;
+		os << (hand->front())->getName() << endl;
 	}
 }
 
