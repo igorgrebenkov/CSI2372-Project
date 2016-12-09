@@ -120,8 +120,6 @@ Player::~Player() {
 	delete hand;
 }
 
-
-
 const Player& Player::operator+=(int i) {
 	numCoins += i;
 	return *this;
@@ -188,6 +186,12 @@ const Chain_Base& Player::operator[](int i) {
 	return *(*chains)[i];
 }
 
+/**
+* Function: createChain
+* Description: responsible for creating new chains using the
+*              string that represents that chain's card type
+* Returns: n/a
+**/
 void Player::createChain(int index, string cardType) {
 	// save pointer to previous chain so we can delete it
 	Chain_Base* toDelete = (*chains)[index];
@@ -224,6 +228,12 @@ void Player::createChain(int index, string cardType) {
 	//delete toDelete;				// delete old chain
 }
 
+/**
+* Function: addCardToChain
+* Description: responsible for casting the Card pointer to the appropriate
+*              type before adding to the Chain with the overloaded += operator
+* Returns: n/a
+**/
 void Player::addCardToChain(int index, string cardType, Card* card) {
 	Chain_Base* cb = (*chains)[index];
 	switch (cardType.at(0)) {
@@ -270,18 +280,32 @@ void Player::addCardToChain(int index, string cardType, Card* card) {
 	}
 }
 
+/**
+* Function: getChains
+* Description: getter for the vector of player chains
+* Returns: pointer to the vector of player chains
+**/
 vector<Chain_Base*>* Player::getChains() const {
 	return chains;
 }
 
+/**
+* Function: getChainTypes
+* Description: getter for the chain type strings
+* Returns: a pointer to the vector of chain type strings
+**/
 const vector<string> Player::getChainTypes() const {
 	return chainTypes;
 }
 
+/**
+* Function: getHand
+* Description: getter for the player's hand
+* Returns: pointer to the player's hand
+**/
 Hand* const Player::getHand() const {
 	return hand;
 }
-
 
 const string Player::getName() const {
 	return name;

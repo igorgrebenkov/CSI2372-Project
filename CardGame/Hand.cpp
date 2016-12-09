@@ -3,6 +3,8 @@
 Hand::Hand(istream & is, const CardFactory* cf) {
 	string handStr;
 	getline(is, handStr);
+
+	// Get temp deck to get cards for restoring hand
 	Deck tmp = cf->getDeck();
 	for (char c : handStr) {
 		if (c != ' ') {

@@ -3,6 +3,7 @@
 using namespace std;
 
 DiscardPile::DiscardPile(std::istream& is, const CardFactory* cf) {
+	// Get temp deck to get cards for restoring discard pile
 	Deck tmp = cf->getDeck();
 	string discardStr;
 	getline(is, discardStr);

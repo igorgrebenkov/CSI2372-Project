@@ -9,8 +9,8 @@ class CardFactory;
 
 class Table {
 private:
-	Player* p1;
-	Player* p2;
+	Player* p1; 
+	Player* p2; 
 	Deck deck;
 	DiscardPile* discardPile;
 	TradeArea* tradeArea;

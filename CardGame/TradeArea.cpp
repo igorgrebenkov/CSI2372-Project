@@ -4,6 +4,8 @@
 TradeArea::TradeArea(istream& is, const CardFactory* cf) {
 	string tradeStr;
 	getline(is, tradeStr);
+
+	// Get temp deck we can use to reconstruct TradeArea from file
 	Deck tmp = cf->getDeck();
 
 	for (char c : tradeStr) {
