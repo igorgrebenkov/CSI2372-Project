@@ -15,7 +15,6 @@ template <typename T>
 class Chain : public Chain_Base, public vector<T> {
 public:
 	Chain() : Chain_Base() {};
-	Chain(istream& is, const CardFactory* cf) {};
 	Chain& operator+=(Card* c);
 	const ostream& operator<<(ostream& os);
 	int sell();

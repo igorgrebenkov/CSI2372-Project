@@ -17,7 +17,6 @@ private:
 	vector<Chain_Base*>* chains;
 	vector<string> chainTypes;
 	Hand* hand;
-	void parseInputStream(istream& is, string& name, string& hand);
 public:
 	Player(const string& s);
 	Player(istream& is, const CardFactory* cf);

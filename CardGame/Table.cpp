@@ -57,24 +57,6 @@ Table::Table(istream& is, const CardFactory* cf) {
 	iss.clear();
 	iss.str(tradeStr);
 	tradeArea = new TradeArea(iss, cf);
-
-	/*
-	cout << "Deck: ";
-	deck << cout;
-	cout << "Discard: ";
-	discardPile->print(cout);
-	cout << "Trade: ";
-	*tradeArea << cout;
-	*/
-	
-	
-	//cout << p1Str << endl;
-	//cout << p2Str << endl;
-	//cout << deckStr << endl;
-	//cout << discardStr << endl;
-	//cout << tradeStr << endl;
-	
-
 }
 
 ostream& Table::operator<<(ostream& os) {

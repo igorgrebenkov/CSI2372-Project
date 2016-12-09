@@ -3,9 +3,6 @@
 
 using namespace std;
 
-Deck::Deck(std::istream& is, const CardFactory* cf) {
-}
-
 ostream& Deck::operator<<(ostream& os) {
 	for (Card* c : *this) {
 		os << c->getName()[0] << " ";
