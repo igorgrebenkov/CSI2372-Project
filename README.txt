@@ -1,6 +1,13 @@
+CSI2372 Final Project, version 1
+Name: Igor Grebenkov
+Studen#: 6939888
+E-mail: igreb093@uottawa.ca
+
+NOTE: My partner ended up switching to another group. This work is 100% mine. 
+
 Unfortunately, I did not have much time to properly implement the save game function.
 
-My current implementation works fine, but it deviates from the expected
+My current save implementation works fine, but it deviates from the expected
 implementation as requested in the project description.
 
 The changes I've made in my implementation are:
