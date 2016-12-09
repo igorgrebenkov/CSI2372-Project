@@ -26,8 +26,13 @@ const DiscardPile& DiscardPile::operator+=(Card* card) {
 }
 
 const ostream& DiscardPile::operator<<(ostream& os) {
-	const Card* topCard = back();
-	os << topCard->getName();
+	if (!this->empty()) {
+		const Card* topCard = back();
+		os << topCard->getName() << endl;
+	}
+	else {
+		os << endl;
+	}
 	return os;
 }
 

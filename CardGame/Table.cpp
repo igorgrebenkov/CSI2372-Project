@@ -77,8 +77,8 @@ ostream& Table::operator<<(ostream& os) {
 	os << "------------------------------------------------------------" << endl;
 	*p2 << os;
 	os << endl;
-	os << "Discard Pile: ";
-	discardPile->print(cout);
+	os << "Discard Top: ";
+	*discardPile << os;
 	os << "Trade Area: ";
 	*tradeArea << os;
 	os << "Cards in Deck: ";
