@@ -112,7 +112,6 @@ Player::Player(istream& is, const CardFactory* cf) {
 
 Player::~Player() {
 	// Delete all chains
-	cout << "Player";
 	for (auto c : *chains) {
 		delete c;
 	}
