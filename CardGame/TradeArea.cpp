@@ -1,4 +1,5 @@
 #include "TradeArea.h"
+#include <iostream>
 
 TradeArea::TradeArea(istream& is, const CardFactory* cf) {
 	string tradeStr;
@@ -16,7 +17,12 @@ TradeArea::TradeArea(istream& is, const CardFactory* cf) {
 			}
 		}
 	}
+}
 
+TradeArea::~TradeArea() {
+	for (Card* c : *this) {
+		delete c;
+	}
 }
 
 const TradeArea& TradeArea::operator+=(Card* card) {

@@ -11,7 +11,6 @@ ostream& Deck::operator<<(ostream& os) {
 	return os;
 }
 
-
 Card* Deck::draw() {
 	Card* drawnCard = back();
 	pop_back();

@@ -6,35 +6,42 @@
 
 #include "CardFactory.h"
 
-
 #define NUM_CARD_TYPES 7
 #define NUM_CARDS 104
+#define NUM_QUARTZ 20
+#define NUM_HEMATITE 18
+#define NUM_OBSIDIAN 16
+#define NUM_MALACHITE 14
+#define NUM_TURQUOISE 12
+#define NUM_RUBY 10
+#define NUM_AMETHYST 8
+#define NUM_EMERALD 6
 
 using namespace std;
 
 CardFactory::CardFactory() {
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < NUM_QUARTZ; i++) {
 		deck.push_back(createCard("Quartz"));
 	}
-	for (int i = 0; i < 18; i++) {
+	for (int i = 0; i < NUM_HEMATITE; i++) {
 		deck.push_back(createCard("Hematite"));
 	}
-	for (int i = 0; i < 16; i++) {
+	for (int i = 0; i < NUM_OBSIDIAN; i++) {
 		deck.push_back(createCard("Obsidian"));
 	}
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < NUM_MALACHITE; i++) {
 		deck.push_back(createCard("Malachite"));
 	}
-	for (int i = 0; i < 12; i++) {
+	for (int i = 0; i < NUM_TURQUOISE; i++) {
 		deck.push_back(createCard("Turquoise"));
 	}
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < NUM_RUBY; i++) {
 		deck.push_back(createCard("Ruby"));
 	}
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < NUM_AMETHYST; i++) {
 		deck.push_back(createCard("Amethyst"));
 	}
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < NUM_EMERALD; i++) {
 		deck.push_back(createCard("Emerald"));
 	}
 

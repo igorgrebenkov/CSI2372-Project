@@ -20,6 +20,7 @@ private:
 public:
 	Player(const string& s);
 	Player(istream& is, const CardFactory* cf);
+	~Player();
 	const Player& operator+=(int i);
 	ostream& operator<<(ostream& os) const;
 	const Chain_Base& operator[](int i);

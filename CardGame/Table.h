@@ -19,6 +19,7 @@ private:
 public:
 	Table(const string& p1Name, const string& p2Name);
 	Table(istream& os, const CardFactory* cf);
+	~Table();
 	ostream& operator<<(ostream&);
 	Player* const getPlayers(Player* arr[]) const;
 	Deck& getDeck();
