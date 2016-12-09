@@ -38,7 +38,7 @@ int main() {
 	ifstream infile;
 	infile.open("gameSave.dat");
 	/* Load game from file if file exists. */
-	if (infile) {	
+	if (infile) {
 		const CardFactory* cf = CardFactory::getFactory();
 		t = new Table(infile, cf);
 		infile.close();
@@ -63,18 +63,19 @@ int main() {
 	while (!t->getDeck().empty()) {
 		for (Player* const player : arr) {
 
-			/* Make sure we don't ask to pause the game on 
+			/* Make sure we don't ask to pause the game on
 			the first iteration of the main loop. */
 			if (!firstRun) {
 				askToPauseGame(*t);
 				firstRun = false;
-			} else {
+			}
+			else {
 				firstRun = false;
 			}
-		
-			/* The last step where two cards are drawn from the deck may result 
-			   in an empty deck. If this happens during Player 1's turn, Player 2 
-			   might try to draw from the empty deck. So we break out of this loop 
+
+			/* The last step where two cards are drawn from the deck may result
+			   in an empty deck. If this happens during Player 1's turn, Player 2
+			   might try to draw from the empty deck. So we break out of this loop
 			   in that case. */
 			if (t->getDeck().empty()) {
 				break;
@@ -82,7 +83,7 @@ int main() {
 
 			/* Print table. */
 			*t << std::cout;
-			
+
 			/* Asks the player if they want to buy another chain. */
 			askToBuyChain(player);
 
@@ -209,7 +210,7 @@ void playCards(Table& t, Player* const player) {
 
 		// After the first played card, ask if the user wants to play another card
 		if (askCount == 0) {
-			std::cout << player->getName() 
+			std::cout << player->getName()
 				<< ": Would you like to play another card? (y/n): ";
 
 			char playAgainChoice = 0;
@@ -277,11 +278,11 @@ void sellChain(const Table& t, Player* const player,
 	const vector<string> chainTypes = player->getChainTypes();
 
 	if (player->getMaxNumChains() == 2) {
-		std::cout << player->getName() 
+		std::cout << player->getName()
 			<< ": Chain ended. Which chain would you like to sell? (1-2): ";
 	}
 	else {
-		std::cout << player->getName() 
+		std::cout << player->getName()
 			<< ": Chain ended. Which chain would you like to sell? (1-3): ";
 	}
 
@@ -344,7 +345,7 @@ void sellChain(const Table& t, Player* const player,
 **/
 void askToDiscard(const Table& t, Player* const player) {
 	char discardCardChoice = 0;
-	std::cout << player->getName() 
+	std::cout << player->getName()
 		<< ": Would you like to discard one of your cards? (y/n): ";
 	cin >> discardCardChoice;
 
@@ -354,7 +355,7 @@ void askToDiscard(const Table& t, Player* const player) {
 		int cardDiscardIndex = 0;
 		bool isCardAdded = false;
 		while (!isCardAdded) {
-			std::cout << "Which card would you like to discard? (1 - " 
+			std::cout << "Which card would you like to discard? (1 - "
 				<< handUpperRange + 1 << "): ";
 			cin >> cardDiscardIndex;
 
@@ -406,13 +407,13 @@ void putMatchingDiscardToTradeArea(Table& t) {
 	   to add that other person's whole chain to theirs.
 
 	   This was pointed out on the CSI2372 Blackboard discussion board
-	   by another student. 
-	   
+	   by another student.
+
 	   So, to avoid this, we shuffle the discard pile before this step.
 	*/
 	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-	shuffle(begin(*t.getDiscardPile()), 
-		end(*t.getDiscardPile()), 
+	shuffle(begin(*t.getDiscardPile()),
+		end(*t.getDiscardPile()),
 		default_random_engine(seed));
 
 	bool matchFound = true;
@@ -442,33 +443,33 @@ void putMatchingDiscardToTradeArea(Table& t) {
 * Returns: n/a
 **/
 void askToChainInTradeArea(Table& t, Player* const player) {
+	char chainChoice = 0;
+
+	bool doneChaining = false;
 	if (!t.getTradeArea()->empty()) {
-		TradeArea* ta = t.getTradeArea();
+		while (!doneChaining && !t.getTradeArea()->empty()) {
+			t << cout;
+			cout << player->getName() << ": "
+				<< "Would you like to chain a card in the trade area? (y/n): ";
+			cin >> chainChoice;
 
-		list<Card*>::iterator it;
+			if (chainChoice == 'y') {
+				string toChain;
+				cout << "Enter the full name of the card you'd like to chain: ";
+				cin >> toChain;
+				Card* card = t.getTradeArea()->trade(toChain);
 
-		for (it = ta->begin(); it != ta->end();) {
-			// Print table to update trade area view
-			t << std::cout;
-			Card* card = *it;
-			char chainTAChoice = 0;
-			std::cout << player->getName() << ": Chain card " 
-				<< card->getName() << "? (y/n): ";
-			cin >> chainTAChoice;
-			std::cout << endl;
+				if (card != NULL) {
+					vector<Chain_Base*>* playerChains = player->getChains();
+					const string ctpName = card->getName();
 
-			if (chainTAChoice == 'y') {
-				vector<Chain_Base*>* playerChains = player->getChains();
-				const string ctpName = card->getName();
-
-				// If a card hasn't been added, a chain must be tied & sold 
-				if (!tryPlayTopCard(t, player, card, ctpName)) {
-					sellChain(t, player, playerChains, card, ctpName);
+					// If a card hasn't been added, a chain must be tied & sold 
+					if (!tryPlayTopCard(t, player, card, ctpName)) {
+						sellChain(t, player, playerChains, card, ctpName);
+					}
 				}
-				it = ta->erase(it);
-			}
-			else {
-				it++;
+			} else {
+				doneChaining = true;
 			}
 		}
 	}
@@ -490,7 +491,7 @@ void displayWinner(const Table& t) {
 
 	// Loops until user types exit to quit the game. This prevents the
 	// user from accidentally closing the window when a game has ended,
-    // which would prevent them from seeing who won.
+	// which would prevent them from seeing who won.
 	string exitChoice;
 	while (exitChoice != "exit") {
 		cout << "Type \"exit\" to exit the game: ";

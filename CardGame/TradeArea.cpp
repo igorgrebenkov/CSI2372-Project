@@ -50,14 +50,25 @@ bool TradeArea::legal(Card* card) {
 	return hasCard;
 }
 
-const Card* TradeArea::trade(string s) {
-	const Card* tradedCard = NULL;
+Card* TradeArea::trade(string s) {
+	Card* tradedCard = NULL;
+	for (list<Card*>::iterator it = this->begin(); it != this->end();) {
+		if ((*it)->getName() == s) {
+			tradedCard = *it;
+			it = this->erase(it);
+			break;
+		} else {
+			it++;
+		}
+	}
+	/*
 	for (Card* c : *this) {
 		if (c->getName() == s) {
 			tradedCard = c;
 			remove(c);
 		}
 	}
+	*/
 	return tradedCard;
 }
 int TradeArea::numCards() {

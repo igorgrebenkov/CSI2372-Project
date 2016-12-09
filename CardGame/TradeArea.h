@@ -14,6 +14,6 @@ public:
 	const TradeArea& operator+=(Card* card);
 	const ostream& operator<<(ostream& os);
 	bool legal(Card* card);
-	const Card* trade(string s);
+	Card* trade(string s);
 	int numCards();
 };
