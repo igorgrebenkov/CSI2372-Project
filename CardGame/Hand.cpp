@@ -19,14 +19,6 @@ Hand::Hand(istream & is, const CardFactory* cf) {
 	}
 }
 
-Hand::~Hand() {
-	while (!this->empty()) {
-		Card* toDel = this->front();
-		this->pop();
-		delete toDel;
-	}
-}
-
 const Hand& Hand::operator+=(Card* c) {
 	this->push(c);
 	return *this;

@@ -9,14 +9,12 @@ class CardFactory;
 class Chain_Base {
 public:
 	Chain_Base() {};
-	virtual ~Chain_Base() {};
 };
 
 template <typename T>
 class Chain : public Chain_Base, public vector<T> {
 public:
 	Chain() : Chain_Base() {};
-	~Chain();
 	Chain& operator+=(Card* c);
 	const ostream& operator<<(ostream& os);
 	int sell();
@@ -27,15 +25,6 @@ class IllegalType : public exception {
 		return "IllegalType Exception";
 	}
 };
-
-
-template <typename T>
-inline Chain<T>::~Chain() {
-	for (auto c : *this) {
-		delete c;
-	}
-}
-
 
 template <typename T>
 inline Chain<T>& Chain<T>::operator+=(Card* c) {

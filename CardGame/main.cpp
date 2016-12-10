@@ -3,6 +3,7 @@
 #include <queue>
 #include <chrono>
 #include <random>
+#include <algorithm>
 #include <fstream>
 
 #include "Card.h"
@@ -135,7 +136,8 @@ void askToPauseGame(Table& t) {
 	string pauseChoice = "";
 	cout << "Would you like to save the game and exit? (yes/n): " << endl;
 	cin >> pauseChoice;
-	transform(pauseChoice.begin(), pauseChoice.end(), pauseChoice.begin(), tolower);
+	transform(pauseChoice.begin(), pauseChoice.end(), pauseChoice.begin(), 
+	(int(*)(int)) tolower);
 
 	if (pauseChoice == "yes") {
 		ofstream outFile;
@@ -496,7 +498,8 @@ void displayWinner(const Table& t) {
 	while (exitChoice != "exit") {
 		cout << "Type \"exit\" to exit the game: ";
 		cin >> exitChoice;
-		transform(exitChoice.begin(), exitChoice.end(), exitChoice.begin(), tolower);
+		transform(exitChoice.begin(), exitChoice.end(), exitChoice.begin(), 
+		(int(*)(int)) tolower);
 	}
 
 	remove("gameSave.dat"); // delete the saved game

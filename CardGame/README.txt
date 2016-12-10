@@ -1,7 +1,9 @@
-CSI2372 Final Project, version 1
+CSI2372 Final Project, version 3
 Name: Igor Grebenkov
 Studen#: 6939888
 E-mail: igreb093@uottawa.ca
+
+FIXED ERRORS THAT PREVENTED g++ COMPILATION
 
 Unfortunately, I did not have much time to properly implement the save game function.
 

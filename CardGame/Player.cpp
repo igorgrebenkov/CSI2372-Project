@@ -110,15 +110,6 @@ Player::Player(istream& is, const CardFactory* cf) {
 	iss.clear();
 }
 
-Player::~Player() {
-	// Delete all chains
-	for (auto c : *chains) {
-		delete c;
-	}
-	delete chains;
-	delete hand;
-}
-
 const Player& Player::operator+=(int i) {
 	numCoins += i;
 	return *this;

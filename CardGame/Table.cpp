@@ -61,13 +61,6 @@ Table::Table(istream& is, const CardFactory* cf) {
 	tradeArea = new TradeArea(iss, cf);
 }
 
-Table::~Table() {
-	delete p1;
-	delete p2;
-	delete discardPile;
-	delete tradeArea;
-}
-
 ostream& Table::operator<<(ostream& os) {
 	os << "------------------------------------------------------------" << endl;
 	os << "Player 1: " << endl;
